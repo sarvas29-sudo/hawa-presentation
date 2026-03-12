@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Industrial Decarbonisation Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:#ffffff; --off:#f7f5f0; --border:#e2ddd5;
+  --text:#1a1a14; --muted:#7a7a6a;
+  --green-dark:#1a4731; --green:#2d6a4f; --green-mid:#40916c;
+  --green-light:#52b788; --green-pale:#d8f3dc;
+  --amber:#e76f51; --amber-light:#f4a261; --amber-pale:#fdebd0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Outfit',sans-serif;background:#fff;color:var(--text);}
+#deck{width:100%;height:100%;position:relative;overflow:hidden;}
+ 
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transform:translateX(60px);transition:opacity 0.45s ease,transform 0.45s ease;overflow:hidden;}
+.slide.active{opacity:1;pointer-events:all;transform:translateX(0);}
+.slide.exit-left{opacity:0;transform:translateX(-60px);transition:opacity 0.35s ease,transform 0.35s ease;}
+ 
+/* NAV */
+#topbar{position:fixed;top:0;left:0;right:0;z-index:999;height:56px;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;}
+.tb-logo{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);display:flex;align-items:center;gap:0.5rem;}
+.tb-dot{width:7px;height:7px;background:var(--green-light);border-radius:50%;animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:0.6}}
+#slide-pills{display:flex;gap:6px;align-items:center;}
+.pill{height:6px;width:6px;border-radius:100px;background:var(--border);cursor:pointer;transition:all 0.3s;flex-shrink:0;}
+.pill.active{background:var(--green);width:22px;}
+ 
+/* BOTTOM NAV */
+#botnav{position:fixed;bottom:0;left:0;right:0;z-index:999;height:64px;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;}
+.slide-counter{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;}
+.slide-title-hint{font-size:0.78rem;color:var(--muted);font-weight:400;max-width:340px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.nav-btns{display:flex;gap:0.8rem;}
+.nav-btn{display:flex;align-items:center;gap:0.5rem;padding:0.55rem 1.4rem;border-radius:6px;font-size:0.78rem;font-weight:500;cursor:pointer;border:none;transition:all 0.2s;font-family:'Outfit',sans-serif;}
+.nav-btn.prev{background:var(--off);color:var(--text);border:1.5px solid var(--border);}
+.nav-btn.prev:hover{border-color:var(--green);color:var(--green);}
+.nav-btn.next{background:var(--green);color:white;}
+.nav-btn.next:hover{background:var(--green-dark);}
+.nav-btn:disabled{opacity:0.3;cursor:not-allowed;}
+ 
+/* SLIDE INNER */
+.slide-inner{flex:1;padding:62px 3rem 62px;overflow:hidden;display:flex;flex-direction:column;}
+ 
+/* TYPOGRAPHY */
+.eyebrow{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.6rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--green-mid);margin-bottom:0.5rem;}
+.eyebrow::before{content:'';width:1.2rem;height:2px;background:var(--green-light);border-radius:2px;}
+h1.slide-h{font-family:'Fraunces',serif;font-size:clamp(2rem,3.5vw,3.2rem);font-weight:900;line-height:1.05;letter-spacing:-0.03em;margin-bottom:0.7rem;}
+h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);font-weight:900;line-height:1.1;letter-spacing:-0.02em;margin-bottom:0.5rem;}
+.lead{font-size:0.9rem;color:var(--muted);line-height:1.7;max-width:580px;}
+.accent{color:var(--green-mid);font-style:italic;}
+ 
+/* LAYOUTS */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;margin-top:1rem;}
+.two-col-anim{display:grid;grid-template-columns:1fr 300px;gap:0;align-items:stretch;flex:1;overflow:hidden;margin-top:0;}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem;}
+.four-col{display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;margin-top:1rem;}
+ 
+/* CARDS */
+.card{background:var(--off);border:1px solid var(--border);border-radius:8px;padding:1rem 1.2rem;}
+.card.white{background:white;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+.card-label{font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:0.4rem;}
+.card-title{font-family:'Fraunces',serif;font-size:0.9rem;font-weight:700;margin-bottom:0.3rem;}
+.card-body{font-size:0.75rem;color:var(--muted);line-height:1.55;}
+.card.border-amber{border-left:4px solid var(--amber);}
+.card.border-green{border-left:4px solid var(--green-light);}
+ 
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:0.4rem;padding:0.25rem 0.7rem;border-radius:100px;font-size:0.6rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;}
+.badge.green{background:var(--green-pale);color:var(--green-dark);}
+.badge.amber{background:var(--amber-pale);color:var(--amber);}
+ 
+/* FLOW */
+.flow{display:flex;flex-direction:column;gap:0;position:relative;}
+.flow-step{display:flex;gap:1rem;align-items:flex-start;padding-bottom:1rem;position:relative;}
+.flow-step:last-child{padding-bottom:0;}
+.flow-line{position:absolute;left:15px;top:32px;bottom:0;width:2px;background:var(--green-pale);}
+.flow-step:last-child .flow-line{display:none;}
+.flow-ico{width:30px;height:30px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:0.85rem;flex-shrink:0;position:relative;z-index:1;}
+.flow-ico.dark{background:var(--green-dark);}
+.flow-txt h4{font-family:'Fraunces',serif;font-size:0.85rem;font-weight:700;margin-bottom:0.1rem;}
+.flow-txt p{font-size:0.73rem;color:var(--muted);line-height:1.5;}
+ 
+/* MARKET BARS */
+.mbar{margin-bottom:1rem;}
+.mbar-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem;}
+.mbar-name{font-size:0.75rem;font-weight:500;display:flex;align-items:center;gap:0.5rem;}
+.mbar-chip{font-size:0.55rem;background:#f0ede6;color:var(--muted);padding:0.15rem 0.45rem;border-radius:4px;font-family:'Space Mono',monospace;}
+.mbar-val{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;color:var(--green);}
+.mbar-track{height:7px;background:var(--border);border-radius:100px;overflow:hidden;}
+.mbar-fill{height:100%;background:linear-gradient(90deg,var(--green-dark),var(--green-light));border-radius:100px;width:0;transition:width 1.1s ease;}
+.mbar-sub{font-size:0.67rem;color:var(--muted);margin-top:0.25rem;}
+ 
+/* ROADMAP */
+.rphase{padding:1.1rem 1.3rem;border:1px solid var(--border);border-radius:8px;background:white;box-shadow:0 2px 8px rgba(0,0,0,0.04);position:relative;overflow:hidden;}
+.rphase::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),var(--green-light));}
+.rphase-num{width:30px;height:30px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:900;color:white;font-size:0.9rem;margin-bottom:0.7rem;box-shadow:0 0 0 3px var(--green-pale);}
+.rphase-year{font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--green-mid);display:block;margin-bottom:0.3rem;}
+.rphase-title{font-family:'Fraunces',serif;font-size:0.95rem;font-weight:700;margin-bottom:0.4rem;}
+.rphase-desc{font-size:0.72rem;color:var(--muted);line-height:1.55;}
+.rphase-target{margin-top:0.7rem;padding-top:0.6rem;border-top:1px solid var(--border);font-family:'Fraunces',serif;font-size:1.3rem;font-weight:900;color:var(--green);}
+.rphase-target span{font-family:'Outfit',sans-serif;font-size:0.65rem;color:var(--muted);display:block;font-weight:400;}
+ 
+/* HERO */
+.hero-slide{display:grid;grid-template-columns:55% 45%;flex:1;overflow:hidden;}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:1.5rem 3rem;}
+.hero-right{background:var(--off);border-left:1px solid var(--border);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:1.5rem;}
+.hero-right-bg{position:absolute;inset:0;background:radial-gradient(circle at 40% 50%,rgba(82,183,136,0.07) 0%,transparent 60%);}
+.fl-card{position:absolute;background:white;border:1px solid var(--border);border-radius:8px;padding:0.6rem 1rem;box-shadow:0 4px 16px rgba(0,0,0,0.08);animation:fl 5s ease-in-out infinite;}
+.fl-card:nth-child(2){animation-delay:-2s;}
+.fl-card:nth-child(3){animation-delay:-3.8s;}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.fl-num{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:900;color:var(--green);display:block;line-height:1;}
+.fl-num.amber{color:var(--amber);}
+.fl-lbl{font-size:0.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-top:0.1rem;}
+ 
+/* TAG */
+.tag{font-size:0.6rem;padding:0.18rem 0.5rem;background:var(--off);border-radius:4px;color:var(--muted);border:1px solid var(--border);}
+ 
+/* CREDIT BOX */
+.credit-box{background:var(--green-dark);color:white;border-radius:10px;padding:1rem 1.2rem;text-align:center;margin-bottom:0.7rem;}
+.credit-box .big{font-family:'Fraunces',serif;font-size:3.5rem;font-weight:900;color:var(--green-light);line-height:1;}
+.credit-box .unit{font-size:0.68rem;color:rgba(255,255,255,0.6);letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem;display:block;}
+.equiv-row{display:flex;gap:0.6rem;margin-bottom:0.7rem;}
+.equiv-item{flex:1;background:var(--off);border:1px solid var(--border);border-radius:6px;padding:0.55rem;text-align:center;}
+.equiv-item .ico{font-size:1.1rem;display:block;margin-bottom:0.15rem;}
+.equiv-item .txt{font-size:0.62rem;color:var(--muted);line-height:1.35;}
+ 
+/* SEGMENTS */
+.seg-card{border:1px solid var(--border);border-radius:8px;padding:1rem 1.1rem;background:white;position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+.seg-card.priority::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),var(--green-light));}
+.seg-card.amber-p::before{background:linear-gradient(90deg,var(--amber),var(--amber-light));}
+.seg-num{font-family:'Space Mono',monospace;font-size:0.55rem;color:var(--muted);display:block;margin-bottom:0.3rem;}
+.seg-title{font-family:'Fraunces',serif;font-size:0.85rem;font-weight:700;margin-bottom:0.4rem;}
+.seg-tags{display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:0.4rem;}
+.seg-desc{font-size:0.7rem;color:var(--muted);line-height:1.5;}
+.seg-big{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:900;color:var(--green);display:block;margin-top:0.4rem;line-height:1;}
+ 
+/* ADV */
+.adv-list{list-style:none;display:flex;flex-direction:column;}
+.adv-item{display:flex;gap:0.9rem;align-items:flex-start;padding:0.55rem 0;border-bottom:1px solid var(--border);}
+.adv-item:first-child{border-top:1px solid var(--border);}
+.adv-ico{font-size:1rem;flex-shrink:0;width:1.6rem;text-align:center;}
+.adv-item h4{font-family:'Fraunces',serif;font-size:0.82rem;font-weight:700;margin-bottom:0.05rem;}
+.adv-item p{font-size:0.68rem;color:var(--muted);line-height:1.45;}
+ 
+/* BRIDGE */
+.bridge-wrap{display:flex;align-items:center;gap:0.8rem;background:var(--off);border-radius:8px;padding:0.8rem 1rem;margin-bottom:0.8rem;}
+.bridge-side{flex:1;text-align:center;padding:0.4rem;}
+.bridge-icon{font-size:1.6rem;display:block;margin-bottom:0.25rem;}
+.bridge-name{font-family:'Fraunces',serif;font-size:0.82rem;font-weight:700;margin-bottom:0.1rem;}
+.bridge-problem{font-size:0.65rem;color:var(--amber);font-style:italic;}
+.bridge-arrow{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
+.bridge-gap{background:var(--green);color:white;border-radius:5px;padding:0.35rem 0.65rem;font-size:0.58rem;font-weight:600;text-align:center;font-family:'Space Mono',monospace;}
+.arr{font-size:0.95rem;color:var(--green-light);}
+ 
+/* REVENUE */
+.rev-item{display:flex;gap:0.8rem;align-items:flex-start;padding:0.6rem 0;border-bottom:1px solid var(--border);}
+.rev-item:first-child{border-top:1px solid var(--border);}
+.rev-dot{width:8px;height:8px;border-radius:50%;background:var(--green-light);flex-shrink:0;margin-top:4px;}
+.rev-dot.amber{background:var(--amber-light);}
+.rev-item h4{font-family:'Fraunces',serif;font-size:0.82rem;font-weight:700;margin-bottom:0.06rem;}
+.rev-item p{font-size:0.68rem;color:var(--muted);line-height:1.45;}
+ 
+/* TEAM */
+.tpill{display:inline-flex;align-items:center;gap:0.4rem;padding:0.4rem 0.9rem;border:1.5px solid var(--border);border-radius:100px;font-size:0.7rem;font-weight:400;margin:0.2rem;}
+.tpill-dot{width:5px;height:5px;background:var(--green-light);border-radius:50%;}
+ 
+/* LAYER */
+.layer-card{background:white;border:1px solid var(--border);border-radius:8px;padding:1.1rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,0.04);text-align:center;}
+.layer-ico{font-size:1.6rem;display:block;margin-bottom:0.5rem;}
+.layer-num2{font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:0.3rem;}
+.layer-name{font-family:'Fraunces',serif;font-size:0.88rem;font-weight:700;color:var(--green-dark);margin-bottom:0.3rem;}
+.layer-desc{font-size:0.68rem;color:var(--muted);line-height:1.5;}
+.layer-chip{display:inline-block;background:var(--green-pale);color:var(--green-dark);font-size:0.55rem;font-weight:600;padding:0.18rem 0.5rem;border-radius:100px;text-transform:uppercase;letter-spacing:0.06em;margin-top:0.5rem;}
+ 
+/* STAT BOX */
+.stat-box{background:white;border:1px solid var(--border);border-radius:8px;padding:0.9rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+.stat-box .num{font-family:'Fraunces',serif;font-size:1.7rem;font-weight:900;color:var(--green);line-height:1;display:block;margin-bottom:0.18rem;}
+.stat-box .lbl{font-size:0.65rem;color:var(--muted);}
+ 
+/* CTA */
+.cta-slide-inner{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:var(--green-dark);padding:2.5rem;}
+.cta-slide-inner h2{font-family:'Fraunces',serif;font-size:clamp(1.8rem,3.5vw,3rem);font-weight:900;color:white;margin-bottom:0.8rem;}
+.cta-slide-inner p{color:rgba(255,255,255,0.65);font-size:0.92rem;max-width:480px;margin-bottom:1.8rem;line-height:1.7;}
+.btn-white{background:white;color:var(--green-dark);padding:0.7rem 1.8rem;border-radius:6px;font-weight:600;font-size:0.85rem;text-decoration:none;display:inline-block;transition:all 0.2s;}
+.btn-white:hover{background:var(--green-pale);}
+ 
+/* ANIMATION PANEL */
+.anim-panel{background:var(--off);border-left:1px solid var(--border);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+ 
+@media(max-width:768px){
+  .hero-slide,.two-col,.two-col-anim{grid-template-columns:1fr;}
+  .hero-right,.anim-panel{display:none;}
+  .three-col,.four-col{grid-template-columns:1fr 1fr;}
+  #topbar,#botnav{padding:0 1rem;}
+  .slide-inner{padding:64px 1.2rem 68px;}
+  .hero-left{padding:1rem 1.2rem;}
+}
+</style>
+</head>
+<body>
+ 
+<div id="topbar">
+  <div class="tb-logo"><div class="tb-dot"></div>Decarbonisation Platform</div>
+  <div id="slide-pills"></div>
+  <div style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--muted);letter-spacing:0.12em;" id="tb-counter">01 / 11</div>
+</div>
+ 
+<div id="deck">
+ 
+<!-- ══════════════════════════════════════════
+     SLIDE 1 · HERO
+══════════════════════════════════════════ -->
+<div class="slide active" data-title="Overview">
+  <div class="hero-slide">
+    <div class="hero-left">
+      <div class="eyebrow">Industrial Climate Finance · India</div>
+      <h1 class="slide-h">Decarbonising<br>India's <span class="accent">100,000</span><br>brick kilns</h1>
+      <p class="lead" style="margin-bottom:1.5rem;">A distributed platform aggregating verified carbon credits from informal industry — connecting kiln operators to global climate finance for the first time.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+        <span class="badge green">🌿 Climate Finance</span>
+        <span class="badge green">📊 MRV Platform</span>
+        <span class="badge amber">🏭 Informal Industry</span>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-right-bg"></div>
+      <!-- ANIMATED KILN SVG -->
+      <svg viewBox="0 0 320 380" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;position:relative;z-index:1;">
+        <defs>
+          <linearGradient id="kg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4a4a3a"/><stop offset="100%" stop-color="#2a2a1e"/></linearGradient>
+          <radialGradient id="glow1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffd166" stop-opacity="0.6"/><stop offset="100%" stop-color="#ffd166" stop-opacity="0"/></radialGradient>
+        </defs>
+        <!-- Ground -->
+        <rect x="0" y="318" width="320" height="62" fill="#e8e4da"/>
+        <rect x="0" y="316" width="320" height="4" fill="#d4cfc5"/>
+        <!-- Trees -->
+        <rect x="22" y="290" width="7" height="26" fill="#5c4a2a"/>
+        <polygon points="25,262 42,290 8,290" fill="#2d6a4f"/>
+        <polygon points="25,272 40,290 10,290" fill="#40916c"/>
+        <rect x="282" y="286" width="7" height="28" fill="#5c4a2a"/>
+        <polygon points="285,258 302,286 268,286" fill="#2d6a4f"/>
+        <polygon points="285,268 300,286 270,286" fill="#40916c"/>
+        <!-- Sun -->
+        <circle cx="272" cy="52" r="22" fill="#ffd166" opacity="0.9">
+          <animate attributeName="r" values="22;25;22" dur="4s" repeatCount="indefinite"/>
+        </circle>
+        <!-- Kiln body -->
+        <rect x="70" y="158" width="180" height="160" rx="4" fill="url(#kg1)"/>
+        <!-- Arch -->
+        <path d="M100 318 L100 225 Q160 188 220 225 L220 318Z" fill="#3a3a2a"/>
+        <!-- Door -->
+        <rect x="125" y="240" width="70" height="70" rx="2" fill="#e76f51" opacity="0.85"/>
+        <!-- Fire glow -->
+        <ellipse cx="160" cy="275" rx="26" ry="23" fill="#f4a261" opacity="0.7">
+          <animate attributeName="rx" values="26;30;24;28;26" dur="1.8s" repeatCount="indefinite"/>
+          <animate attributeName="ry" values="23;26;21;25;23" dur="1.8s" repeatCount="indefinite"/>
+        </ellipse>
+        <ellipse cx="160" cy="278" rx="16" ry="14" fill="#ffd166" opacity="0.9">
+          <animate attributeName="rx" values="16;19;14;17;16" dur="1.3s" repeatCount="indefinite"/>
+        </ellipse>
+        <!-- Chimney -->
+        <rect x="132" y="58" width="56" height="108" rx="4" fill="#3a3a2a"/>
+        <rect x="125" y="52" width="70" height="14" rx="3" fill="#4a4a3a"/>
+        <!-- Smoke particles -->
+        <circle cx="155" cy="42" r="10" fill="#c0b8ae" opacity="0">
+          <animate attributeName="cy" values="42;8;-15" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.55;0" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="10;17;25" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="cx" values="155;148;140" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="168" cy="38" r="8" fill="#c0b8ae" opacity="0">
+          <animate attributeName="cy" values="38;2;-18" dur="3.4s" begin="1s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.45;0" dur="3.4s" begin="1s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="8;15;22" dur="3.4s" begin="1s" repeatCount="indefinite"/>
+          <animate attributeName="cx" values="168;175;182" dur="3.4s" begin="1s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="160" cy="35" r="6" fill="#a0988e" opacity="0">
+          <animate attributeName="cy" values="35;0;-20" dur="4s" begin="2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.35;0" dur="4s" begin="2s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="6;13;20" dur="4s" begin="2s" repeatCount="indefinite"/>
+        </circle>
+        <!-- "AFTER" badge -->
+        <g transform="translate(228,88)">
+          <rect width="80" height="68" rx="10" fill="#d8f3dc"/>
+          <text x="40" y="20" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#2d6a4f" font-weight="700">AFTER TRAINING</text>
+          <text x="40" y="44" text-anchor="middle" font-family="serif" font-size="22" fill="#2d6a4f" font-weight="900">20%</text>
+          <text x="40" y="58" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#52b788">less CO₂</text>
+        </g>
+        <!-- Credit token -->
+        <g transform="translate(8,88)">
+          <rect width="68" height="68" rx="10" fill="#1a4731"/>
+          <text x="34" y="20" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="#d8f3dc" font-weight="600">CARBON</text>
+          <text x="34" y="32" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="#d8f3dc" font-weight="600">CREDIT</text>
+          <circle cx="34" cy="50" r="12" fill="none" stroke="#52b788" stroke-width="1.5"/>
+          <text x="34" y="54" text-anchor="middle" font-family="serif" font-size="11" fill="#52b788" font-weight="900">1t</text>
+        </g>
+        <!-- Label -->
+        <text x="160" y="356" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a7a6a" letter-spacing="2.5">BRICK KILN · INDIA</text>
+      </svg>
+      <div class="fl-card" style="top:10%;left:2%;"><span class="fl-num">100K</span><span class="fl-lbl">Kilns in India</span></div>
+      <div class="fl-card" style="top:42%;right:2%;"><span class="fl-num amber">$400M</span><span class="fl-lbl">Market potential</span></div>
+      <div class="fl-card" style="bottom:12%;left:4%;"><span class="fl-num">40Mt</span><span class="fl-lbl">CO₂ reducible</span></div>
+    </div>
+  </div>
+</div>
+ 
+<!-- ══════════════════════════════════════════
+     SLIDE 2 · WHAT IS A CARBON CREDIT
+══════════════════════════════════════════ -->
+<div class="slide" data-title="What is a Carbon Credit?">
+  <div class="two-col-anim" style="flex:1;margin:0;gap:0;">
+    <div class="slide-inner" style="padding-right:1.5rem;overflow-y:auto;">
+      <div class="eyebrow">Carbon Credits Explained</div>
+      <h2 class="slide-h">What is a carbon credit?</h2>
+      <div class="credit-box">
+        <span class="big">1</span>
+        <span class="unit">Credit = 1 Tonne of CO₂ reduced or removed</span>
+      </div>
+      <div class="equiv-row">
+        <div class="equiv-item"><span class="ico">✈️</span><span class="txt">One short-haul flight offset</span></div>
+        <div class="equiv-item"><span class="ico">🚗</span><span class="txt">~4,000 km by car</span></div>
+        <div class="equiv-item"><span class="ico">🏠</span><span class="txt">2 months of home energy</span></div>
+      </div>
+      <div class="flow">
+        <div class="flow-step"><div class="flow-line"></div><div class="flow-ico dark">🏭</div><div class="flow-txt"><h4>Emission reduction happens</h4><p>Kiln trains staff, fixes combustion — genuinely cutting CO₂ by 15–25%.</p></div></div>
+        <div class="flow-step"><div class="flow-line"></div><div class="flow-ico">📏</div><div class="flow-txt"><h4>MRV: Measured & Verified</h4><p>Independent auditors prove every tonne reduced against a baseline.</p></div></div>
+        <div class="flow-step"><div class="flow-line"></div><div class="flow-ico">🪙</div><div class="flow-txt"><h4>Registry issues the credit</h4><p>Verra / Gold Standard issues one certified credit per verified tonne.</p></div></div>
+        <div class="flow-step"><div class="flow-ico">🏢</div><div class="flow-txt"><h4>Corporate buys & retires it</h4><p>Net-zero buyer permanently retires the credit. Used exactly once.</p></div></div>
+      </div>
+    </div>
+    <!-- ANIMATED CREDIT CYCLE SVG -->
+    <div class="anim-panel">
+      <svg viewBox="0 0 300 420" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;">
+        <defs>
+          <linearGradient id="cycleGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f7f5f0"/>
+            <stop offset="100%" stop-color="#e8f3ec"/>
+          </linearGradient>
+        </defs>
+        <rect width="300" height="420" fill="url(#cycleGrad)"/>
+        <!-- Central coin -->
+        <circle cx="150" cy="210" r="48" fill="#1a4731" stroke="#52b788" stroke-width="2">
+          <animate attributeName="r" values="48;52;48" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="150" cy="210" r="36" fill="none" stroke="#52b788" stroke-width="1.5" stroke-dasharray="6 4">
+          <animateTransform attributeName="transform" type="rotate" from="0 150 210" to="360 150 210" dur="12s" repeatCount="indefinite"/>
+        </circle>
+        <text x="150" y="205" text-anchor="middle" font-family="serif" font-size="14" fill="#d8f3dc" font-weight="900">1t</text>
+        <text x="150" y="222" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#52b788" font-weight="600">CO₂</text>
+ 
+        <!-- Node 1: Kiln top -->
+        <circle cx="150" cy="68" r="30" fill="#2d6a4f"/>
+        <text x="150" y="63" text-anchor="middle" font-size="16">🏭</text>
+        <text x="150" y="78" text-anchor="middle" font-family="sans-serif" font-size="8" fill="white" font-weight="600">KILN</text>
+        <!-- Node 2: MRV right -->
+        <circle cx="258" cy="210" r="30" fill="#40916c"/>
+        <text x="258" y="205" text-anchor="middle" font-size="16">📏</text>
+        <text x="258" y="220" text-anchor="middle" font-family="sans-serif" font-size="8" fill="white" font-weight="600">MRV</text>
+        <!-- Node 3: Registry bottom -->
+        <circle cx="150" cy="352" r="30" fill="#52b788"/>
+        <text x="150" y="347" text-anchor="middle" font-size="16">🪙</text>
+        <text x="150" y="362" text-anchor="middle" font-family="sans-serif" font-size="8" fill="white" font-weight="600">REGISTRY</text>
+        <!-- Node 4: Corporate left -->
+        <circle cx="42" cy="210" r="30" fill="#1a4731"/>
+        <text x="42" y="205" text-anchor="middle" font-size="16">🏢</text>
+        <text x="42" y="220" text-anchor="middle" font-family="sans-serif" font-size="8" fill="white" font-weight="600">BUYER</text>
+ 
+        <!-- Arrows between nodes — animated dots travelling along paths -->
+        <!-- Top → Right -->
+        <path d="M175 88 Q220 130 238 182" stroke="#52b788" stroke-width="1.5" fill="none" stroke-dasharray="5 4" opacity="0.5"/>
+        <circle r="5" fill="#52b788">
+          <animateMotion dur="2s" repeatCount="indefinite" begin="0s">
+            <mpath href="#p1"/>
+          </animateMotion>
+        </circle>
+        <path id="p1" d="M175 88 Q220 130 238 182" fill="none"/>
+ 
+        <!-- Right → Bottom -->
+        <path d="M238 238 Q220 290 175 332" stroke="#52b788" stroke-width="1.5" fill="none" stroke-dasharray="5 4" opacity="0.5"/>
+        <circle r="5" fill="#40916c">
+          <animateMotion dur="2s" repeatCount="indefinite" begin="0.5s">
+            <mpath href="#p2"/>
+          </animateMotion>
+        </circle>
+        <path id="p2" d="M238 238 Q220 290 175 332" fill="none"/>
+ 
+        <!-- Bottom → Left -->
+        <path d="M125 332 Q80 290 62 238" stroke="#52b788" stroke-width="1.5" fill="none" stroke-dasharray="5 4" opacity="0.5"/>
+        <circle r="5" fill="#d8f3dc">
+          <animateMotion dur="2s" repeatCount="indefinite" begin="1s">
+            <mpath href="#p3"/>
+          </animateMotion>
+        </circle>
+        <path id="p3" d="M125 332 Q80 290 62 238" fill="none"/>
+ 
+        <!-- Left → Top -->
+        <path d="M62 182 Q80 130 125 88" stroke="#52b788" stroke-width="1.5" fill="none" stroke-dasharray="5 4" opacity="0.5"/>
+        <circle r="5" fill="#52b788">
+          <animateMotion dur="2s" repeatCount="indefinite" begin="1.5s">
+            <mpath href="#p4"/>
+          </animateMotion>
+        </circle>
+        <path id="p4" d="M62 182 Q80 130 125 88" fill="none"/>
+ 
+        <!-- Label -->
+        <text x="150" y="410" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#7a7a6a" letter-spacing="1.5">CARBON CREDIT CYCLE</text>
+      </svg>
+    </div>
+  </div>
+</div>
+ 
+<!-- ══════════════════════════════════════════
+     SLIDE 3 · WHY INDUSTRIAL CREDITS
+══════════════════════════════════════════ -->
+<div class="slide" data-title="Why Industrial Credits?">
+  <div class="two-col-anim" style="flex:1;margin:0;gap:0;">
+    <div class="slide-inner" style="padding-right:1.5rem;overflow-y:auto;">
+      <div class="eyebrow">The Opportunity</div>
+      <h2 class="slide-h">Why industrial credits are special</h2>
+      <p class="lead" style="margin-bottom:1.2rem;">Most credits come from forestry or renewables. Verified industrial reductions are rare — and highly valuable.</p>
+      <div style="display:flex;flex-direction:column;gap:0.8rem;">
+        <div class="card white border-green"><span class="card-label">Scarcity Premium</span><div class="card-title">💎 Industrial credits are rare</div><div class="card-body">Corporate buyers pay a premium for verified industrial credits — far fewer exist than nature-based offsets.</div></div>
+        <div class="card white border-green"><span class="card-label">Health Co-Benefits</span><div class="card-title">🏥 PM2.5 reduction included</div><div class="card-body">Each kiln improvement cuts particulate pollution by ~20% — a measurable health benefit boosting credit pricing.</div></div>
+        <div class="card white border-amber"><span class="card-label">The Gap We Fill</span><div class="card-title">🔗 Aggregation unlocks it</div><div class="card-body">No single kiln can access carbon markets alone. Aggregating thousands into one portfolio is the core platform insight.</div></div>
+      </div>
+    </div>
+    <!-- ANIMATED SCALE / SCARCITY SVG -->
+    <div class="anim-panel">
+      <svg viewBox="0 0 300 420" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;">
+        <!-- Background -->
+        <rect width="300" height="420" fill="#f7f5f0"/>
+        <!-- Bar chart showing credit types -->
+        <text x="150" y="28" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a7a6a" font-weight="600" letter-spacing="1.5">CREDIT SUPPLY BY TYPE</text>
+ 
+        <!-- Y axis -->
+        <line x1="55" y1="45" x2="55" y2="290" stroke="#e2ddd5" stroke-width="1.5"/>
+        <line x1="55" y1="290" x2="270" y2="290" stroke="#e2ddd5" stroke-width="1.5"/>
+ 
+        <!-- Bars -->
+        <!-- Forestry -->
+        <rect x="70" y="290" width="44" height="0" fill="#52b788" rx="3" opacity="0.7">
+          <animate attributeName="height" values="0;210" dur="1.2s" fill="freeze" begin="0.2s"/>
+          <animate attributeName="y" values="290;80" dur="1.2s" fill="freeze" begin="0.2s"/>
+        </rect>
+        <text x="92" y="306" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a7a6a">Forestry</text>
+        <text x="92" y="72" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2d6a4f" font-weight="700">68%</text>
+ 
+        <!-- Renewable -->
+        <rect x="128" y="290" width="44" height="0" fill="#40916c" rx="3" opacity="0.7">
+          <animate attributeName="height" values="0;150" dur="1.2s" fill="freeze" begin="0.5s"/>
+          <animate attributeName="y" values="290;140" dur="1.2s" fill="freeze" begin="0.5s"/>
+        </rect>
+        <text x="150" y="306" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a7a6a">Renewable</text>
+        <text x="150" y="132" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2d6a4f" font-weight="700">24%</text>
+ 
+        <!-- Industrial – tiny, highlighted -->
+        <rect x="186" y="290" width="44" height="0" fill="#e76f51" rx="3">
+          <animate attributeName="height" values="0;24" dur="1.2s" fill="freeze" begin="0.8s"/>
+          <animate attributeName="y" values="290;266" dur="1.2s" fill="freeze" begin="0.8s"/>
+        </rect>
+        <text x="208" y="306" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#e76f51" font-weight="600">Industrial</text>
+        <text x="208" y="258" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#e76f51" font-weight="700">8%</text>
+        <!-- Arrow pointing at industrial bar -->
+        <path d="M240 240 L218 268" stroke="#e76f51" stroke-width="1.5" marker-end="url(#redA)"/>
+        <defs><marker id="redA" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7Z" fill="#e76f51"/></marker></defs>
+        <rect x="236" y="218" width="56" height="22" rx="4" fill="#fdebd0"/>
+        <text x="264" y="233" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#e76f51" font-weight="700">HIGH VALUE</text>
+ 
+        <!-- Price comparison -->
+        <rect x="30" y="326" width="240" height="72" rx="8" fill="white" stroke="#e2ddd5" stroke-width="1"/>
+        <text x="150" y="344" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#7a7a6a" font-weight="600">CREDIT PRICE COMPARISON</text>
+        <text x="80" y="366" text-anchor="middle" font-family="Fraunces,serif" font-size="16" fill="#52b788" font-weight="900">$3–5</text>
+        <text x="80" y="380" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="#7a7a6a">Forestry</text>
+        <text x="150" y="366" text-anchor="middle" font-family="Fraunces,serif" font-size="16" fill="#40916c" font-weight="900">$5–8</text>
+        <text x="150" y="380" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="#7a7a6a">Renewable</text>
+        <text x="224" y="366" text-anchor="middle" font-family="Fraunces,serif" font-size="16" fill="#e76f51" font-weight="900">$8–15</text>
+        <text x="224" y="380" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="#e76f51" font-weight="700">Industrial ★</text>
+ 
+        <text x="150" y="412" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a7a6a" letter-spacing="1">SUPPLY · PRICE PER TONNE</text>
+      </svg>
+    </div>
+  </div>
+</div>
+ 
+<!-- ══════════════════════════════════════════
+     SLIDE 4 · PROBLEM
+══════════════════════════════════════════ -->
+<div class="slide" data-title="The Problem">
+  <div class="two-col-anim" style="flex:1;margin:0;gap:0;">
+    <div class="slide-inner" style="padding-right:1.5rem;overflow-y:auto;">
+      <div class="eyebrow">The Problem</div>
+      <h2 class="slide-h">Two sides of the same broken market</h2>
+      <div class="bridge-wrap">
+        <div class="bridge-side"><span class="bridge-icon">🏭</span><div class="bridge-name">Kiln Operators</div><div class="bridge-problem">"No access to carbon finance"</div></div>
+        <div class="bridge-arrow"><div class="arr">←</div><div class="bridge-gap">THE GAP</div><div class="arr">→</div></div>
+        <div class="bridge-side"><span class="bridge-icon">🏢</span><div class="bridge-name">Corporate Buyers</div><div class="bridge-problem">"Can't find credible credits"</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.8rem;">
+        <div class="card white border-amber"><div class="card-title">🏭 Kilns locked out of finance</div><div class="card-body">~3–6% of India's national CO₂. No structured pathway to carbon credits for small informal producers.</div></div>
+        <div class="card white border-amber"><div class="card-title">🏢 Corporates starved of supply</div><div class="card-body">Net-zero multinationals with Scope 3 targets can't source high-integrity industrial credits at scale.</div></div>
+        <div class="card white border-green"><div class="card-title">🔬 Proven solution, undeployed</div><div class="card-body">RCT evidence: 15–25% fuel reduction via training, ~20% PM2.5 reduction, no rebound. The gap is aggregation infrastructure — not technology.</div></div>
+      </div>
+    </div>
+    <!-- ANIMATED PROBLEM SVG – rising emissions, cracked connection -->
+    <div class="anim-panel">
+      <svg viewBox="0 0 300 420" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;">
+        <rect width="300" height="420" fill="#f7f5f0"/>
+        <!-- Ground line -->
+        <line x1="0" y1="330" x2="300" y2="330" stroke="#e2ddd5" stroke-width="1.5"/>
+ 
+        <!-- LEFT: kiln emitting -->
+        <rect x="30" y="230" width="90" height="100" rx="3" fill="#3a3a2a"/>
+        <path d="M48 330 L48 270 Q75 248 102 270 L102 330Z" fill="#2a2a1a"/>
+        <rect x="58" y="256" width="36" height="36" rx="2" fill="#e76f51" opacity="0.8"/>
+        <ellipse cx="76" cy="274" rx="12" ry="11" fill="#ffd166" opacity="0.8">
+          <animate attributeName="rx" values="12;15;10;13;12" dur="1.5s" repeatCount="indefinite"/>
+        </ellipse>
+        <!-- Chimney left kiln -->
+        <rect x="60" y="168" width="30" height="65" rx="3" fill="#3a3a2a"/>
+        <!-- Big red smoke - problem state -->
+        <circle cx="72" cy="152" r="12" fill="#e76f51" opacity="0">
+          <animate attributeName="cy" values="152;110;80" dur="2.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.5;0" dur="2.5s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="12;20;28" dur="2.5s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="78" cy="140" r="9" fill="#c85a3e" opacity="0">
+          <animate attributeName="cy" values="140;95;65" dur="3s" begin="0.8s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.45;0" dur="3s" begin="0.8s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="9;17;26" dur="3s" begin="0.8s" repeatCount="indefinite"/>
+        </circle>
+        <!-- X mark on kiln -->
+        <circle cx="106" cy="160" r="14" fill="#fde8e8" stroke="#e74c3c" stroke-width="1.5"/>
+        <line x1="100" y1="154" x2="112" y2="166" stroke="#e74c3c" stroke-width="2" stroke-linecap="round"/>
+        <line x1="112" y1="154" x2="100" y2="166" stroke="#e74c3c" stroke-width="2" stroke-linecap="round"/>
+ 
+        <!-- RIGHT: office building -->
+        <rect x="182" y="198" width="88" height="132" rx="3" fill="#2d4a7a"/>
+        <!-- windows -->
+        <rect x="196" y="212" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.8"/>
+        <rect x="216" y="212" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.8"/>
+        <rect x="236" y="212" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.8"/>
+        <rect x="196" y="232" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.6"/>
+        <rect x="216" y="232" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.6"/>
+        <rect x="236" y="232" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.6"/>
+        <rect x="196" y="252" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.4"/>
+        <rect x="216" y="252" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.4"/>
+        <rect x="236" y="252" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.4"/>
+        <!-- "?" on building -->
+        <circle cx="184" cy="160" r="14" fill="#fef9c3" stroke="#e6a817" stroke-width="1.5"/>
+        <text x="184" y="165" text-anchor="middle" font-family="serif" font-size="14" fill="#e6a817" font-weight="900">?</text>
+ 
+        <!-- Broken link in middle -->
+        <line x1="120" y1="198" x2="145" y2="198" stroke="#e74c3c" stroke-width="2" stroke-dasharray="5 3"/>
+        <line x1="155" y1="198" x2="180" y2="198" stroke="#e74c3c" stroke-width="2" stroke-dasharray="5 3"/>
+        <circle cx="150" cy="198" r="8" fill="#fde8e8" stroke="#e74c3c" stroke-width="1.5"/>
+        <text x="150" y="202" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#e74c3c" font-weight="700">✗</text>
+ 
+        <!-- Platform bridge forming -->
+        <rect x="88" y="350" width="124" height="32" rx="6" fill="#2d6a4f"/>
+        <text x="150" y="362" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="white" font-weight="700">OUR PLATFORM</text>
+        <text x="150" y="375" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="#d8f3dc">bridges both sides</text>
+ 
+        <!-- Arrows to platform -->
+        <path d="M75 330 Q75 355 88 362" stroke="#2d6a4f" stroke-width="1.5" fill="none"/>
+        <path d="M226 330 Q226 355 212 362" stroke="#2d6a4f" stroke-width="1.5" fill="none"/>
+ 
+        <text x="150" y="412" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a7a6a" letter-spacing="1">THE STRUCTURAL GAP</text>
+      </svg>
+    </div>
+  </div>
+</div>
+ 
+<!-- ══════════════════════════════════════════
+     SLIDE 5 · PLATFORM
+══════════════════════════════════════════ -->
+<div class="slide" data-title="The Platform">
+  <div style="flex:1;display:flex;flex-direction:column;padding:62px 3rem 62px;overflow:hidden;">
+    <div class="eyebrow">The Solution</div>
+    <h2 class="slide-h">A four-layer decarbonisation platform</h2>
+    <p class="lead" style="margin-bottom:1.2rem;">End-to-end infrastructure: from kiln training to corporate offtake agreements.</p>
+    <!-- 4 cards filling remaining height with arrows between -->
+    <div style="flex:1;display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:0;align-items:stretch;min-height:0;">
+      <div class="layer-card" style="display:flex;flex-direction:column;">
+        <span class="layer-num2">Layer 01</span>
+        <span class="layer-ico" style="font-size:2.2rem;">🏭</span>
+        <div class="layer-name" style="font-size:1.05rem;">Field Operations</div>
+        <div class="layer-desc" style="flex:1;font-size:0.78rem;line-height:1.6;">On-ground training programmes delivering 15–25% fuel reduction per kiln through combustion optimisation, correct stacking, and continuous feeding techniques.</div>
+        <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--border);">
+          <div style="font-family:'Fraunces',serif;font-size:1.6rem;font-weight:900;color:var(--green);line-height:1;">15–25%</div>
+          <div style="font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">fuel reduction per kiln</div>
+        </div>
+        <span class="layer-chip" style="margin-top:0.6rem;">Training</span>
+      </div>
+      <div style="display:flex;align-items:center;padding:0 0.5rem;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M14 6l6 6-6 6" stroke="#52b788" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="layer-card" style="display:flex;flex-direction:column;">
+        <span class="layer-num2">Layer 02</span>
+        <span class="layer-ico" style="font-size:2.2rem;">📊</span>
+        <div class="layer-name" style="font-size:1.05rem;">Data & MRV</div>
+        <div class="layer-desc" style="flex:1;font-size:0.78rem;line-height:1.6;">Standardised fuel-use tracking, emissions estimation engine, and independent measurement & verification framework built to meet international carbon registry standards.</div>
+        <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--border);">
+          <div style="font-family:'Fraunces',serif;font-size:1.6rem;font-weight:900;color:var(--green);line-height:1;">Registry-grade</div>
+          <div style="font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">verification standard</div>
+        </div>
+        <span class="layer-chip" style="margin-top:0.6rem;">Tech Infra</span>
+      </div>
+      <div style="display:flex;align-items:center;padding:0 0.5rem;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M14 6l6 6-6 6" stroke="#52b788" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="layer-card" style="display:flex;flex-direction:column;">
+        <span class="layer-num2">Layer 03</span>
+        <span class="layer-ico" style="font-size:2.2rem;">🔗</span>
+        <div class="layer-name" style="font-size:1.05rem;">Credit Aggregation</div>
+        <div class="layer-desc" style="flex:1;font-size:0.78rem;line-height:1.6;">Portfolio-based carbon registration aggregating credits across thousands of individual kilns into credible, registry-verified issuances at scale — unlocking market access no single kiln could achieve alone.</div>
+        <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--border);">
+          <div style="font-family:'Fraunces',serif;font-size:1.6rem;font-weight:900;color:var(--green);line-height:1;">10,000+</div>
+          <div style="font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">kilns aggregated</div>
+        </div>
+        <span class="layer-chip" style="margin-top:0.6rem;">Registry</span>
+      </div>
+      <div style="display:flex;align-items:center;padding:0 0.5rem;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M14 6l6 6-6 6" stroke="#52b788" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="layer-card" style="display:flex;flex-direction:column;">
+        <span class="layer-num2">Layer 04</span>
+        <span class="layer-ico" style="font-size:2.2rem;">🤝</span>
+        <div class="layer-name" style="font-size:1.05rem;">Monetisation</div>
+        <div class="layer-desc" style="flex:1;font-size:0.78rem;line-height:1.6;">Long-term corporate offtake agreements with ESG-committed multinationals and Indian conglomerates — delivering predictable annual revenue and a credible industrial carbon supply chain.</div>
+        <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--border);">
+          <div style="font-family:'Fraunces',serif;font-size:1.6rem;font-weight:900;color:var(--green);line-height:1;">$8–10/t</div>
+          <div style="font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">carbon credit price</div>
+        </div>
+        <span class="layer-chip" style="margin-top:0.6rem;">Revenue</span>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<!-- ══════════════════════════════════════════
+     SLIDE 6 · MARKET
+══════════════════════════════════════════ -->
+<div class="slide" data-title="Market Opportunity">
+  <div style="flex:1;display:flex;flex-direction:column;padding:62px 3rem 62px;overflow:hidden;">
+    <div class="eyebrow">Market Opportunity</div>
+    <h2 class="slide-h">A $400M addressable market</h2>
+    <p class="lead" style="margin-bottom:1.2rem;">India's brick kilns are one of the largest untapped pools of industrial emission reductions — entirely absent from carbon markets today.</p>
+ 
+    <!-- Two-column: bars + stat cards left, concentric diagram right -->
+    <div style="flex:1;display:grid;grid-template-columns:1fr 340px;gap:2.5rem;min-height:0;align-items:stretch;">
+ 
+      <!-- Left: bars + stat boxes -->
+      <div style="display:flex;flex-direction:column;justify-content:center;gap:0;">
+        <div class="mbar"><div class="mbar-head"><span class="mbar-name">TAM <span class="mbar-chip">All India · 80–100K kilns</span></span><span class="mbar-val">$200–400M</span></div><div class="mbar-track"><div class="mbar-fill" data-width="100"></div></div><div class="mbar-sub">24–40 million tonnes CO₂ annual reduction potential</div></div>
+        <div class="mbar"><div class="mbar-head"><span class="mbar-name">SAM <span class="mbar-chip">5–7 Key States</span></span><span class="mbar-val">$100–200M</span></div><div class="mbar-track"><div class="mbar-fill" data-width="56"></div></div><div class="mbar-sub">40–50K kilns · 12–20Mt CO₂ annually</div></div>
+        <div class="mbar"><div class="mbar-head"><span class="mbar-name">SOM <span class="mbar-chip">5-Year Target</span></span><span class="mbar-val">$24–40M</span></div><div class="mbar-track"><div class="mbar-fill" data-width="14" style="background:linear-gradient(90deg,#40916c,#74c69d)"></div></div><div class="mbar-sub">10,000 kilns · 3–4Mt CO₂ · $8–10/tonne</div></div>
+ 
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;margin-top:1.5rem;">
+          <div class="stat-box"><span class="num">100K+</span><span class="lbl">Kilns in India</span></div>
+          <div class="stat-box"><span class="num">40Mt</span><span class="lbl">CO₂ reduction potential</span></div>
+          <div class="stat-box"><span class="num" style="color:var(--amber);">$8–10</span><span class="lbl">Per tonne CO₂</span></div>
+          <div class="stat-box"><span class="num">10K</span><span class="lbl">5-year kiln target</span></div>
+        </div>
+      </div>
+ 
+      <!-- Right: concentric circles diagram, contained -->
+      <div style="background:var(--off);border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:1rem;">
+        <svg viewBox="0 0 280 340" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;max-height:100%;">
+          <text x="140" y="18" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a7a6a" font-weight="600" letter-spacing="1.5">ADDRESSABLE MARKET</text>
+          <!-- TAM outer -->
+          <circle cx="140" cy="162" r="118" fill="#e8f5ec" stroke="#b7e4c7" stroke-width="1.5"/>
+          <!-- TAM label at top of ring -->
+          <text x="140" y="58" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#40916c" font-weight="700">TAM · All India</text>
+          <text x="140" y="71" text-anchor="middle" font-family="Fraunces,serif" font-size="15" fill="#2d6a4f" font-weight="900">$200–400M</text>
+          <text x="140" y="83" text-anchor="middle" font-family="sans-serif" font-size="7" fill="#52b788">80–100K kilns</text>
+          <!-- SAM middle -->
+          <circle cx="140" cy="162" r="80" fill="#d8f3dc" stroke="#52b788" stroke-width="1.5"/>
+          <text x="140" y="105" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#2d6a4f" font-weight="700">SAM · 5–7 States</text>
+          <text x="140" y="118" text-anchor="middle" font-family="Fraunces,serif" font-size="14" fill="#1a4731" font-weight="900">$100–200M</text>
+          <text x="140" y="130" text-anchor="middle" font-family="sans-serif" font-size="7" fill="#40916c">40–50K kilns</text>
+          <!-- SOM inner -->
+          <circle cx="140" cy="162" r="44" fill="#1a4731"/>
+          <text x="140" y="150" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="#d8f3dc" font-weight="700">SOM · Y5</text>
+          <text x="140" y="165" text-anchor="middle" font-family="Fraunces,serif" font-size="13" fill="#52b788" font-weight="900">$24–40M</text>
+          <text x="140" y="178" text-anchor="middle" font-family="sans-serif" font-size="7" fill="#d8f3dc">10K kilns</text>
+          <!-- Bottom note -->
+          <text x="140" y="298" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="#7a7a6a">At $8–10 per tonne CO₂ · 5-year horizon</text>
+          <!-- Row indicators on sides -->
+          <line x1="22" y1="162" x2="260" y2="162" stroke="rgba(45,106,79,0.08)" stroke-width="1" stroke-dasharray="3 3"/>
+        </svg>
+      </div>
+ 
+    </div>
+  </div>
+</div>
+ 
+<!-- ══════════════════════════════════════════
+     SLIDE 7 · SEGMENTS — full-screen 2×2 matrix
+══════════════════════════════════════════ -->
+<div class="slide" data-title="Customer Segments">
+  <div style="flex:1;display:flex;flex-direction:column;padding:56px 2rem 56px;overflow:hidden;">
+ 
+    <!-- Header row -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;flex-shrink:0;">
+      <div>
+        <div class="eyebrow" style="margin-bottom:0.2rem;">Customer Segmentation</div>
+        <h2 class="slide-h" style="margin-bottom:0;font-size:clamp(1.2rem,2vw,1.7rem);">Four kiln segments, two clear priorities</h2>
+      </div>
+      <div style="display:flex;gap:0.4rem;flex-shrink:0;">
+        <span class="badge green" style="font-size:0.55rem;">⭐ Priority 1 = biggest opportunity</span>
+        <span class="badge amber" style="font-size:0.55rem;">Priority 2 = near-term upside</span>
+      </div>
+    </div>
+ 
+    <!-- Matrix wrapper: fills all remaining height -->
+    <div style="flex:1;display:grid;grid-template-columns:32px 1fr 1fr;grid-template-rows:28px 1fr 1fr;gap:5px;min-height:0;">
+ 
+      <div></div><!-- corner -->
+ 
+      <!-- Column headers -->
+      <div style="display:flex;align-items:center;justify-content:center;background:var(--off);border-radius:6px;border:1px solid var(--border);">
+        <span style="font-family:'Space Mono',monospace;font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--green-dark);">✅ GOOD OPERATIONS</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;background:#fff5f3;border-radius:6px;border:1px solid #f4c4b8;">
+        <span style="font-family:'Space Mono',monospace;font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--amber);">⚠️ POOR OPERATIONS</span>
+      </div>
+ 
+      <!-- Row label: Advanced Tech -->
+      <div style="display:flex;align-items:center;justify-content:center;background:var(--off);border-radius:6px;border:1px solid var(--border);">
+        <span style="font-family:'Space Mono',monospace;font-size:0.54rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--green-dark);writing-mode:vertical-rl;transform:rotate(180deg);">ADV. TECH</span>
+      </div>
+ 
+      <!-- Q1: Seg 01 — Adv Tech + Good Ops -->
+      <div style="background:#f0faf4;border:1.5px solid #b7e4c7;border-radius:10px;padding:0.7rem 1rem;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;">
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.3rem;">
+            <span style="font-family:'Space Mono',monospace;font-size:0.54rem;color:var(--muted);letter-spacing:0.1em;">SEGMENT 01</span>
+            <span style="background:#e8f5ec;color:var(--green-dark);font-size:0.56rem;font-weight:600;padding:0.15rem 0.5rem;border-radius:100px;border:1px solid #b7e4c7;">Low Priority</span>
+          </div>
+          <div style="font-family:'Fraunces',serif;font-size:0.95rem;font-weight:900;color:var(--green-dark);margin-bottom:0.25rem;line-height:1.1;">Advanced Tech<br>+ Good Operations</div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.25rem;margin-bottom:0.3rem;">
+            <span class="tag">Zig-zag / VSBK</span><span class="tag">Already efficient</span>
+          </div>
+          <div style="font-size:0.72rem;color:var(--muted);line-height:1.55;">Already operating well. Low immediate need — high long-term partnership value as premium carbon certification leaders.</div>
+        </div>
+        <div style="margin-top:0.6rem;padding-top:0.6rem;border-top:1px solid #b7e4c7;">
+          <div style="font-family:'Fraunces',serif;font-size:1.1rem;font-weight:900;color:var(--green-mid);">Premium Partners</div>
+          <div style="font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;">long-term certification leaders</div>
+        </div>
+      </div>
+ 
+      <!-- Q2: Seg 02 — Adv Tech + Poor Ops ⭐ PRIORITY 1 -->
+      <div style="background:#d8f3dc;border:2.5px solid var(--green);border-radius:10px;padding:0.7rem 1rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;box-shadow:0 4px 16px rgba(45,106,79,0.14);overflow:hidden;">
+        <div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:linear-gradient(90deg,var(--green-dark),var(--green-light));border-radius:10px 10px 0 0;"></div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.3rem;">
+            <span style="font-family:'Space Mono',monospace;font-size:0.54rem;color:var(--green-dark);letter-spacing:0.1em;">SEGMENT 02</span>
+            <span style="background:var(--green);color:white;font-size:0.58rem;font-weight:700;padding:0.18rem 0.6rem;border-radius:100px;">⭐ PRIORITY 1</span>
+          </div>
+          <div style="font-family:'Fraunces',serif;font-size:0.95rem;font-weight:900;color:var(--green-dark);margin-bottom:0.25rem;line-height:1.1;">Advanced Tech<br>+ Poor Operations</div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.25rem;margin-bottom:0.3rem;">
+            <span class="tag" style="background:white;">Zig-zag installed</span><span class="tag" style="background:white;">Poor combustion</span>
+          </div>
+          <div style="font-size:0.72rem;color:var(--green-dark);line-height:1.55;">Tech is in place — bad practices waste fuel. Training delivers <strong>immediate, verified reductions</strong>. Ideal for early-stage carbon aggregation.</div>
+        </div>
+        <div style="margin-top:0.6rem;padding-top:0.6rem;border-top:1.5px solid rgba(45,106,79,0.3);">
+          <div style="font-family:'Fraunces',serif;font-size:1.4rem;font-weight:900;color:var(--green-dark);line-height:1;">15–25%</div>
+          <div style="font-size:0.6rem;color:var(--green-dark);text-transform:uppercase;letter-spacing:0.07em;font-weight:600;">emission reduction via training</div>
+        </div>
+      </div>
+ 
+      <!-- Row label: Traditional Tech -->
+      <div style="display:flex;align-items:center;justify-content:center;background:var(--off);border-radius:6px;border:1px solid var(--border);">
+        <span style="font-family:'Space Mono',monospace;font-size:0.54rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);writing-mode:vertical-rl;transform:rotate(180deg);">TRAD. TECH</span>
+      </div>
+ 
+      <!-- Q3: Seg 04 — Trad Tech + Improving Ops PRIORITY 2 -->
+      <div style="background:#fdebd0;border:2px solid var(--amber-light);border-radius:10px;padding:0.7rem 1rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;box-shadow:0 4px 12px rgba(231,111,81,0.1);overflow:hidden;">
+        <div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:linear-gradient(90deg,var(--amber),var(--amber-light));border-radius:10px 10px 0 0;"></div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.3rem;">
+            <span style="font-family:'Space Mono',monospace;font-size:0.54rem;color:var(--amber);letter-spacing:0.1em;">SEGMENT 04</span>
+            <span style="background:var(--amber);color:white;font-size:0.58rem;font-weight:700;padding:0.18rem 0.6rem;border-radius:100px;">PRIORITY 2</span>
+          </div>
+          <div style="font-family:'Fraunces',serif;font-size:0.95rem;font-weight:900;color:#8b3a22;margin-bottom:0.25rem;line-height:1.1;">Traditional Tech<br>+ Improving Operations</div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.25rem;margin-bottom:0.3rem;">
+            <span class="tag" style="background:white;">Emerging awareness</span><span class="tag" style="background:white;">Early adopters</span>
+          </div>
+          <div style="font-size:0.72rem;color:#7a4030;line-height:1.55;">Operators showing willingness to improve. Moderate near-term carbon potential with a clear pathway to higher reductions as technology upgrades.</div>
+        </div>
+        <div style="margin-top:0.6rem;padding-top:0.6rem;border-top:1.5px solid rgba(231,111,81,0.3);">
+          <div style="font-family:'Fraunces',serif;font-size:1.4rem;font-weight:900;color:var(--amber);line-height:1;">Moderate</div>
+          <div style="font-size:0.6rem;color:var(--amber);text-transform:uppercase;letter-spacing:0.07em;font-weight:600;">near-term · high longer-term upside</div>
+        </div>
+      </div>
+ 
+      <!-- Q4: Seg 03 — Trad Tech + Poor Ops -->
+      <div style="background:#f7f5f0;border:1.5px solid var(--border);border-radius:10px;padding:0.7rem 1rem;display:flex;flex-direction:column;justify-content:space-between;opacity:0.8;overflow:hidden;">
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.3rem;">
+            <span style="font-family:'Space Mono',monospace;font-size:0.54rem;color:var(--muted);letter-spacing:0.1em;">SEGMENT 03</span>
+            <span style="background:var(--border);color:var(--muted);font-size:0.56rem;font-weight:600;padding:0.15rem 0.5rem;border-radius:100px;">Long-term</span>
+          </div>
+          <div style="font-family:'Fraunces',serif;font-size:0.95rem;font-weight:900;color:var(--muted);margin-bottom:0.25rem;line-height:1.1;">Traditional Tech<br>+ Poor Operations</div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.25rem;margin-bottom:0.3rem;">
+            <span class="tag">FCBTK / Clamp</span><span class="tag">High emissions</span>
+          </div>
+          <div style="font-size:0.72rem;color:var(--muted);line-height:1.55;">Requires operational and structural transformation before carbon methodology applies. Not the initial focus — a longer horizon segment.</div>
+        </div>
+        <div style="margin-top:0.6rem;padding-top:0.6rem;border-top:1px solid var(--border);">
+          <div style="font-family:'Fraunces',serif;font-size:1.1rem;font-weight:900;color:var(--muted);line-height:1;">Structural Transition</div>
+          <div style="font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;">requires capex + time</div>
+        </div>
+      </div>
+ 
+    </div><!-- /matrix -->
+  </div>
+</div>
+ 
+      <!-- Top-left corner (empty) -->
+ 
+ 
+<!-- ══════════════════════════════════════════
+     SLIDE 8 · ROADMAP
+══════════════════════════════════════════ -->
+<div class="slide" data-title="36-Month Roadmap">
+  <div style="flex:1;display:flex;flex-direction:column;padding:62px 3rem 62px;overflow:hidden;">
+    <div class="eyebrow">Development Roadmap</div>
+    <h2 class="slide-h">36 months to scale</h2>
+    <p class="lead" style="margin-bottom:1rem;">A disciplined, pilot-led path from first kiln to corporate offtake.</p>
+ 
+    <!-- 3 phase cards filling remaining height -->
+    <div style="flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;min-height:0;">
+ 
+      <!-- Year 1 -->
+      <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:1.8rem 2rem;display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--green-dark),var(--green-mid));"></div>
+        <div style="width:38px;height:38px;background:var(--green-dark);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:900;color:white;font-size:1.1rem;margin-bottom:1rem;box-shadow:0 0 0 4px var(--green-pale);">1</div>
+        <span style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--green-mid);display:block;margin-bottom:0.4rem;">Year One</span>
+        <div style="font-family:'Fraunces',serif;font-size:1.3rem;font-weight:900;margin-bottom:0.8rem;">Pilot & Prove</div>
+        <div style="font-size:0.82rem;color:var(--muted);line-height:1.65;flex:1;">
+          <p style="margin-bottom:0.5rem;"><strong style="color:var(--text);">H1:</strong> Carbon reduction pilot with 25 kilns. Recruit kiln operators, train field staff, run first measurement cycle.</p>
+          <p><strong style="color:var(--text);">H2:</strong> Scale to 100 kilns. Build and validate the MRV system. Establish data protocols and field operations playbook.</p>
+        </div>
+        <div style="margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid var(--border);">
+          <div style="font-family:'Fraunces',serif;font-size:2rem;font-weight:900;color:var(--green-dark);line-height:1;">100 kilns</div>
+          <div style="font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:0.2rem;">MRV validated · end of Year 1</div>
+        </div>
+      </div>
+ 
+      <!-- Year 2 -->
+      <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:1.8rem 2rem;display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--green-mid),var(--green-light));"></div>
+        <div style="width:38px;height:38px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:900;color:white;font-size:1.1rem;margin-bottom:1rem;box-shadow:0 0 0 4px var(--green-pale);">2</div>
+        <span style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--green-mid);display:block;margin-bottom:0.4rem;">Year Two</span>
+        <div style="font-family:'Fraunces',serif;font-size:1.3rem;font-weight:900;margin-bottom:0.8rem;">Scale & Register</div>
+        <div style="font-size:0.82rem;color:var(--muted);line-height:1.65;flex:1;">
+          <p style="margin-bottom:0.5rem;"><strong style="color:var(--text);">Scale:</strong> Expand to 1,000 kiln units across target states. Refine the aggregation model and reduce cost per kiln.</p>
+          <p><strong style="color:var(--text);">Register:</strong> Submit carbon methodology to an accredited registry (Verra / Gold Standard). Begin first credit issuance pipeline.</p>
+        </div>
+        <div style="margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid var(--border);">
+          <div style="font-family:'Fraunces',serif;font-size:2rem;font-weight:900;color:var(--green);line-height:1;">1,000 kilns</div>
+          <div style="font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:0.2rem;">Registered carbon project · first credits issued</div>
+        </div>
+      </div>
+ 
+      <!-- Year 3 -->
+      <div style="background:var(--green-dark);border-radius:12px;padding:1.8rem 2rem;display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(26,71,49,0.2);">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--green-light),#74c69d);"></div>
+        <div style="width:38px;height:38px;background:var(--green-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:900;color:var(--green-dark);font-size:1.1rem;margin-bottom:1rem;box-shadow:0 0 0 4px rgba(82,183,136,0.2);">3</div>
+        <span style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--green-light);display:block;margin-bottom:0.4rem;">Year Three</span>
+        <div style="font-family:'Fraunces',serif;font-size:1.3rem;font-weight:900;color:white;margin-bottom:0.8rem;">Monetise & Expand</div>
+        <div style="font-size:0.82rem;color:rgba(255,255,255,0.7);line-height:1.65;flex:1;">
+          <p style="margin-bottom:0.5rem;"><strong style="color:white;">Offtake:</strong> Secure long-term corporate purchase agreements with net-zero committed multinationals and Indian conglomerates.</p>
+          <p><strong style="color:white;">Expand:</strong> Hit 10,000 kiln target. Launch platform into a second informal industry vertical beyond brick.</p>
+        </div>
+        <div style="margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid rgba(255,255,255,0.15);">
+          <div style="font-family:'Fraunces',serif;font-size:2rem;font-weight:900;color:var(--green-light);line-height:1;">10,000 kilns</div>
+          <div style="font-size:0.65rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;margin-top:0.2rem;">Offtake secured · 2nd vertical launched</div>
+        </div>
+      </div>
+ 
+    </div>
+  </div>
+</div>
+ 
+<!-- ══════════════════════════════════════════
+     SLIDE 9 · REVENUE
+══════════════════════════════════════════ -->
+<div class="slide" data-title="Revenue Model">
+  <div class="two-col-anim" style="flex:1;margin:0;gap:0;">
+    <div class="slide-inner" style="padding-right:1.5rem;overflow-y:auto;">
+      <div class="eyebrow">Revenue Model</div>
+      <h2 class="slide-h">Built for predictable, recurring revenue</h2>
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem;line-height:1.7;">Carbon credit issuance anchors the model, supported by consulting and long-term offtake that smooth early cashflows.</p>
+      <div style="display:flex;flex-direction:column;gap:0;margin-bottom:1rem;">
+        <div class="rev-item"><div class="rev-dot"></div><div><h4>Carbon Credit Issuance & Sales</h4><p>Primary. $8–10/t × 3–4Mt at scale = $24–40M annually. Registry-verified and buyer-ready.</p></div></div>
+        <div class="rev-item"><div class="rev-dot amber"></div><div><h4>Industrial Efficiency Consulting</h4><p>Secondary stream. MRV and operational expertise monetised beyond carbon.</p></div></div>
+        <div class="rev-item"><div class="rev-dot amber"></div><div><h4>Long-Term Offtake Agreements</h4><p>Multi-year contracts providing revenue predictability and balance sheet strength.</p></div></div>
+        <div class="rev-item"><div class="rev-dot"></div><div><h4>Blended Finance (Early Stage)</h4><p>Concessional capital to de-risk pilots and bridge to commercial carbon revenue.</p></div></div>
+      </div>
+      <p style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:0.6rem;">Why We Win</p>
+      <ul class="adv-list">
+        <li class="adv-item"><div class="adv-ico">🏭</div><div><h4>Greenfield informal sector focus</h4><p>No competitor has aggregation infrastructure for informal industrial emitters.</p></div></li>
+        <li class="adv-item"><div class="adv-ico">✅</div><div><h4>Real reductions before credits</h4><p>Credits issued only after verified reductions — registry integrity maintained.</p></div></li>
+        <li class="adv-item"><div class="adv-ico">📈</div><div><h4>Unit economics improve at scale</h4><p>MRV infrastructure becomes the competitive moat at 10,000 kilns.</p></div></li>
+      </ul>
+    </div>
+    <!-- ANIMATED REVENUE DONUT SVG -->
+    <div class="anim-panel">
+      <svg viewBox="0 0 300 420" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;">
+        <rect width="300" height="420" fill="#f7f5f0"/>
+        <text x="150" y="26" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a7a6a" font-weight="600" letter-spacing="1.5">REVENUE MIX</text>
+ 
+        <!-- Donut chart – approximate arcs -->
+        <!-- Carbon credits ~70% (252 deg) -->
+        <circle cx="150" cy="155" r="72" fill="none" stroke="#2d6a4f" stroke-width="28" stroke-dasharray="317 185" stroke-dashoffset="0" opacity="0.9">
+          <animate attributeName="stroke-dasharray" values="0 502;317 185" dur="1.5s" fill="freeze" begin="0.2s"/>
+        </circle>
+        <!-- Consulting ~15% (54 deg) -->
+        <circle cx="150" cy="155" r="72" fill="none" stroke="#52b788" stroke-width="28" stroke-dasharray="68 434" stroke-dashoffset="-317" opacity="0.9">
+          <animate attributeName="stroke-dasharray" values="0 502;68 434" dur="0.5s" fill="freeze" begin="1.7s"/>
+        </circle>
+        <!-- Offtake ~10% (36 deg) -->
+        <circle cx="150" cy="155" r="72" fill="none" stroke="#f4a261" stroke-width="28" stroke-dasharray="45 457" stroke-dashoffset="-385" opacity="0.9">
+          <animate attributeName="stroke-dasharray" values="0 502;45 457" dur="0.4s" fill="freeze" begin="2.2s"/>
+        </circle>
+        <!-- Blended ~5% (18 deg) -->
+        <circle cx="150" cy="155" r="72" fill="none" stroke="#e76f51" stroke-width="28" stroke-dasharray="22 480" stroke-dashoffset="-430" opacity="0.8">
+          <animate attributeName="stroke-dasharray" values="0 502;22 480" dur="0.3s" fill="freeze" begin="2.6s"/>
+        </circle>
+        <!-- Centre -->
+        <circle cx="150" cy="155" r="44" fill="white"/>
+        <text x="150" y="150" text-anchor="middle" font-family="Fraunces,serif" font-size="20" fill="#2d6a4f" font-weight="900">$40M</text>
+        <text x="150" y="165" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a7a6a">peak annual</text>
+ 
+        <!-- Legend -->
+        <rect x="30" y="248" width="240" height="110" rx="8" fill="white" stroke="#e2ddd5"/>
+        <rect x="44" y="263" width="12" height="12" rx="2" fill="#2d6a4f"/>
+        <text x="62" y="273" font-family="sans-serif" font-size="8.5" fill="#1a1a14">Carbon Credits</text>
+        <text x="240" y="273" text-anchor="end" font-family="Fraunces,serif" font-size="9" fill="#2d6a4f" font-weight="700">~70%</text>
+        <rect x="44" y="283" width="12" height="12" rx="2" fill="#52b788"/>
+        <text x="62" y="293" font-family="sans-serif" font-size="8.5" fill="#1a1a14">Efficiency Consulting</text>
+        <text x="240" y="293" text-anchor="end" font-family="Fraunces,serif" font-size="9" fill="#52b788" font-weight="700">~15%</text>
+        <rect x="44" y="303" width="12" height="12" rx="2" fill="#f4a261"/>
+        <text x="62" y="313" font-family="sans-serif" font-size="8.5" fill="#1a1a14">Offtake Agreements</text>
+        <text x="240" y="313" text-anchor="end" font-family="Fraunces,serif" font-size="9" fill="#f4a261" font-weight="700">~10%</text>
+        <rect x="44" y="323" width="12" height="12" rx="2" fill="#e76f51"/>
+        <text x="62" y="333" font-family="sans-serif" font-size="8.5" fill="#1a1a14">Blended Finance</text>
+        <text x="240" y="333" text-anchor="end" font-family="Fraunces,serif" font-size="9" fill="#e76f51" font-weight="700">~5%</text>
+        <line x1="40" y1="342" x2="260" y2="342" stroke="#e2ddd5"/>
+        <text x="150" y="353" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a7a6a">at steady-state (Year 3+)</text>
+ 
+        <text x="150" y="408" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a7a6a" letter-spacing="1">REVENUE BREAKDOWN</text>
+      </svg>
+    </div>
+  </div>
+</div>
+ 
+<!-- ══════════════════════════════════════════
+     SLIDE 10 · TEAM
+══════════════════════════════════════════ -->
+<div class="slide" data-title="The Team">
+  <div class="two-col-anim" style="flex:1;margin:0;gap:0;">
+    <div class="slide-inner" style="padding-right:1.5rem;justify-content:center;overflow-y:auto;">
+      <div class="eyebrow">The Team</div>
+      <h2 class="slide-h">Built by people who've done this before</h2>
+      <p class="lead" style="margin-bottom:1.5rem;">Combining the exact expertise this problem demands — from field to finance.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.5rem;">
+        <span class="tpill"><div class="tpill-dot"></div>Entrepreneurial Experience</span>
+        <span class="tpill"><div class="tpill-dot"></div>Climate Tech</span>
+        <span class="tpill"><div class="tpill-dot"></div>Sustainability Sector</span>
+        <span class="tpill"><div class="tpill-dot"></div>Climate Investment</span>
+        <span class="tpill"><div class="tpill-dot"></div>Training & Capacity Building</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+        <div class="card white" style="text-align:center;"><div style="font-size:1.8rem;margin-bottom:0.4rem;">🤝</div><div class="card-title">Partners</div><div class="card-body">Kiln associations, NGOs, carbon registries</div></div>
+        <div class="card white" style="text-align:center;"><div style="font-size:1.8rem;margin-bottom:0.4rem;">🏢</div><div class="card-title">Buyers</div><div class="card-body">Net-zero MNCs, Indian conglomerates, ESG investors</div></div>
+        <div class="card white" style="text-align:center;"><div style="font-size:1.8rem;margin-bottom:0.4rem;">🌐</div><div class="card-title">Approach</div><div class="card-body">Pilot-led credibility before scaling</div></div>
+      </div>
+    </div>
+    <!-- ANIMATED NETWORK SVG -->
+    <div class="anim-panel">
+      <svg viewBox="0 0 300 420" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;">
+        <rect width="300" height="420" fill="#f7f5f0"/>
+        <text x="150" y="26" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a7a6a" font-weight="600" letter-spacing="1.5">GO-TO-MARKET NETWORK</text>
+ 
+        <!-- Central hub: Platform -->
+        <circle cx="150" cy="200" r="38" fill="#1a4731">
+          <animate attributeName="r" values="38;42;38" dur="4s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="150" cy="200" r="28" fill="none" stroke="#52b788" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.5">
+          <animateTransform attributeName="transform" type="rotate" from="0 150 200" to="360 150 200" dur="15s" repeatCount="indefinite"/>
+        </circle>
+        <text x="150" y="196" text-anchor="middle" font-family="sans-serif" font-size="9" fill="white" font-weight="700">OUR</text>
+        <text x="150" y="210" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#52b788" font-weight="700">PLATFORM</text>
+ 
+        <!-- Satellite nodes -->
+        <!-- Kiln assoc top-left -->
+        <circle cx="68" cy="100" r="26" fill="#2d6a4f"/>
+        <text x="68" y="96" text-anchor="middle" font-size="14">🏭</text>
+        <text x="68" y="112" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="white" font-weight="600">Kiln Assoc.</text>
+        <line x1="90" y1="118" x2="128" y2="172" stroke="#52b788" stroke-width="1.5" stroke-dasharray="5 3">
+          <animate attributeName="stroke-dashoffset" values="0;-16" dur="1s" repeatCount="indefinite"/>
+        </line>
+ 
+        <!-- NGOs top-right -->
+        <circle cx="232" cy="100" r="26" fill="#40916c"/>
+        <text x="232" y="96" text-anchor="middle" font-size="14">🌱</text>
+        <text x="232" y="112" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="white" font-weight="600">NGOs</text>
+        <line x1="210" y1="118" x2="172" y2="172" stroke="#52b788" stroke-width="1.5" stroke-dasharray="5 3">
+          <animate attributeName="stroke-dashoffset" values="0;-16" dur="1s" repeatCount="indefinite" begin="0.3s"/>
+        </line>
+ 
+        <!-- Registries left -->
+        <circle cx="52" cy="220" r="26" fill="#52b788"/>
+        <text x="52" y="216" text-anchor="middle" font-size="14">📋</text>
+        <text x="52" y="232" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="white" font-weight="600">Registries</text>
+        <line x1="78" y1="220" x2="112" y2="210" stroke="#52b788" stroke-width="1.5" stroke-dasharray="5 3">
+          <animate attributeName="stroke-dashoffset" values="0;-16" dur="1s" repeatCount="indefinite" begin="0.6s"/>
+        </line>
+ 
+        <!-- Corporates right -->
+        <circle cx="248" cy="220" r="26" fill="#1a4731"/>
+        <text x="248" y="216" text-anchor="middle" font-size="14">🏢</text>
+        <text x="248" y="232" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="white" font-weight="600">Corporates</text>
+        <line x1="222" y1="220" x2="188" y2="210" stroke="#52b788" stroke-width="1.5" stroke-dasharray="5 3">
+          <animate attributeName="stroke-dashoffset" values="0;-16" dur="1s" repeatCount="indefinite" begin="0.9s"/>
+        </line>
+ 
+        <!-- Investors bottom -->
+        <circle cx="150" cy="332" r="26" fill="#2d6a4f"/>
+        <text x="150" y="328" text-anchor="middle" font-size="14">💰</text>
+        <text x="150" y="344" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="white" font-weight="600">Investors</text>
+        <line x1="150" y1="238" x2="150" y2="306" stroke="#52b788" stroke-width="1.5" stroke-dasharray="5 3">
+          <animate attributeName="stroke-dashoffset" values="0;-16" dur="1s" repeatCount="indefinite" begin="1.2s"/>
+        </line>
+ 
+        <!-- Travelling credit tokens -->
+        <circle r="4" fill="#d8f3dc" opacity="0.9">
+          <animateMotion dur="2.5s" repeatCount="indefinite" begin="0s" path="M90 118 L128 172"/>
+        </circle>
+        <circle r="4" fill="#d8f3dc" opacity="0.9">
+          <animateMotion dur="2.5s" repeatCount="indefinite" begin="0.8s" path="M188 210 L222 220"/>
+        </circle>
+        <circle r="4" fill="#ffd166" opacity="0.9">
+          <animateMotion dur="2.5s" repeatCount="indefinite" begin="1.5s" path="M150 238 L150 306"/>
+        </circle>
+ 
+        <text x="150" y="412" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a7a6a" letter-spacing="1">STAKEHOLDER NETWORK</text>
+      </svg>
+    </div>
+  </div>
+</div>
+ 
+<!-- ══════════════════════════════════════════
+     SLIDE 11 · CTA
+══════════════════════════════════════════ -->
+<div class="slide" data-title="Get in Touch">
+  <div class="cta-slide-inner" style="position:relative;overflow:hidden;">
+    <!-- Background animated SVG -->
+    <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:0.08;" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+      <circle cx="400" cy="300" r="80" fill="none" stroke="white" stroke-width="1"><animate attributeName="r" values="80;200;80" dur="8s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0;1" dur="8s" repeatCount="indefinite"/></circle>
+      <circle cx="400" cy="300" r="160" fill="none" stroke="white" stroke-width="1"><animate attributeName="r" values="160;80;160" dur="8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="8s" repeatCount="indefinite"/></circle>
+      <circle cx="400" cy="300" r="240" fill="none" stroke="white" stroke-width="0.5"><animate attributeName="r" values="240;120;240" dur="10s" repeatCount="indefinite"/></circle>
+    </svg>
+    <div style="font-size:2.5rem;margin-bottom:1rem;">🌿</div>
+    <h2>Ready to build this together?</h2>
+    <p>Whether you're a corporate buyer seeking high-integrity industrial credits, an investor, or an implementation partner — let's talk.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <a href="mailto:hello@example.com" class="btn-white">Get in Touch →</a>
+      <button onclick="goTo(0)" class="btn-white" style="background:rgba(255,255,255,0.12);color:white;border:1.5px solid rgba(255,255,255,0.3);cursor:pointer;">← Back to Start</button>
+    </div>
+    <div style="margin-top:2.5rem;display:flex;gap:2.5rem;justify-content:center;flex-wrap:wrap;">
+      <div style="text-align:center;"><span style="font-family:'Fraunces',serif;font-size:2rem;font-weight:900;color:var(--green-light);display:block;">100K+</span><span style="font-size:0.68rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.1em;">Kilns addressable</span></div>
+      <div style="text-align:center;"><span style="font-family:'Fraunces',serif;font-size:2rem;font-weight:900;color:var(--green-light);display:block;">$400M</span><span style="font-size:0.68rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.1em;">Market potential</span></div>
+      <div style="text-align:center;"><span style="font-family:'Fraunces',serif;font-size:2rem;font-weight:900;color:var(--green-light);display:block;">36 mo</span><span style="font-size:0.68rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.1em;">To scale</span></div>
+    </div>
+  </div>
+</div>
+ 
+</div><!-- /deck -->
+ 
+<div id="botnav">
+  <span class="slide-counter" id="bot-counter">Slide 1 of 11</span>
+  <span class="slide-title-hint" id="slide-hint">Overview</span>
+  <div class="nav-btns">
+    <button class="nav-btn prev" id="prevBtn" onclick="navigate(-1)" disabled>← Prev</button>
+    <button class="nav-btn next" id="nextBtn" onclick="navigate(1)">Next →</button>
+  </div>
+</div>
+ 
+<script>
+const slides = document.querySelectorAll('.slide');
+const pills = document.getElementById('slide-pills');
+const tbCounter = document.getElementById('tb-counter');
+const botCounter = document.getElementById('bot-counter');
+const slideHint = document.getElementById('slide-hint');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+let current = 0;
+ 
+slides.forEach((s,i) => {
+  const p = document.createElement('div');
+  p.className = 'pill' + (i===0?' active':'');
+  p.onclick = () => goTo(i);
+  pills.appendChild(p);
+});
+ 
+function updateUI() {
+  const total = slides.length;
+  tbCounter.textContent = String(current+1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+  botCounter.textContent = 'Slide ' + (current+1) + ' of ' + total;
+  slideHint.textContent = slides[current].dataset.title || '';
+  prevBtn.disabled = current === 0;
+  nextBtn.disabled = current === total - 1;
+  nextBtn.textContent = current === total - 1 ? '✓ Done' : 'Next →';
+  document.querySelectorAll('.pill').forEach((p,i) => p.classList.toggle('active', i===current));
+  // Animate market bars
+  slides[current].querySelectorAll('.mbar-fill').forEach(f => {
+    f.style.width = '0';
+    setTimeout(() => { f.style.width = f.dataset.width + '%'; }, 200);
+  });
+  // Restart SVG animations in current slide by cloning and replacing
+  slides[current].querySelectorAll('animate, animateTransform, animateMotion').forEach(a => {
+    try { a.beginElement(); } catch(e) {}
+  });
+}
+ 
+function goTo(idx) {
+  if (idx < 0 || idx >= slides.length) return;
+  slides[current].classList.remove('active');
+  slides[current].classList.add('exit-left');
+  setTimeout(() => slides[current].classList.remove('exit-left'), 400);
+  current = idx;
+  slides[current].classList.add('active');
+  updateUI();
+}
+ 
+function navigate(dir) { goTo(current + dir); }
+ 
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   navigate(-1);
+});
+ 
+updateUI();
+</script>
+</body>
+</html>
+ 
+
