@@ -16,11 +16,11 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{width:100%;height:100%;overflow:hidden;font-family:'Outfit',sans-serif;background:#fff;color:var(--text);}
 #deck{width:100%;height:100%;position:relative;overflow:hidden;}
- 
+
 .slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transform:translateX(60px);transition:opacity 0.45s ease,transform 0.45s ease;overflow:hidden;}
 .slide.active{opacity:1;pointer-events:all;transform:translateX(0);}
 .slide.exit-left{opacity:0;transform:translateX(-60px);transition:opacity 0.35s ease,transform 0.35s ease;}
- 
+
 /* NAV */
 #topbar{position:fixed;top:0;left:0;right:0;z-index:999;height:56px;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;}
 .tb-logo{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);display:flex;align-items:center;gap:0.5rem;}
@@ -29,7 +29,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Outfit',sans-serif
 #slide-pills{display:flex;gap:6px;align-items:center;}
 .pill{height:6px;width:6px;border-radius:100px;background:var(--border);cursor:pointer;transition:all 0.3s;flex-shrink:0;}
 .pill.active{background:var(--green);width:22px;}
- 
+
 /* BOTTOM NAV */
 #botnav{position:fixed;bottom:0;left:0;right:0;z-index:999;height:64px;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;}
 .slide-counter{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;}
@@ -41,10 +41,10 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Outfit',sans-serif
 .nav-btn.next{background:var(--green);color:white;}
 .nav-btn.next:hover{background:var(--green-dark);}
 .nav-btn:disabled{opacity:0.3;cursor:not-allowed;}
- 
+
 /* SLIDE INNER */
 .slide-inner{flex:1;padding:62px 3rem 62px;overflow:hidden;display:flex;flex-direction:column;}
- 
+
 /* TYPOGRAPHY */
 .eyebrow{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.6rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--green-mid);margin-bottom:0.5rem;}
 .eyebrow::before{content:'';width:1.2rem;height:2px;background:var(--green-light);border-radius:2px;}
@@ -52,13 +52,13 @@ h1.slide-h{font-family:'Fraunces',serif;font-size:clamp(2rem,3.5vw,3.2rem);font-
 h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);font-weight:900;line-height:1.1;letter-spacing:-0.02em;margin-bottom:0.5rem;}
 .lead{font-size:0.9rem;color:var(--muted);line-height:1.7;max-width:580px;}
 .accent{color:var(--green-mid);font-style:italic;}
- 
+
 /* LAYOUTS */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;margin-top:1rem;}
 .two-col-anim{display:grid;grid-template-columns:1fr 300px;gap:0;align-items:stretch;flex:1;overflow:hidden;margin-top:0;}
 .three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem;}
 .four-col{display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;margin-top:1rem;}
- 
+
 /* CARDS */
 .card{background:var(--off);border:1px solid var(--border);border-radius:8px;padding:1rem 1.2rem;}
 .card.white{background:white;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
@@ -67,12 +67,12 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
 .card-body{font-size:0.75rem;color:var(--muted);line-height:1.55;}
 .card.border-amber{border-left:4px solid var(--amber);}
 .card.border-green{border-left:4px solid var(--green-light);}
- 
+
 /* BADGES */
 .badge{display:inline-flex;align-items:center;gap:0.4rem;padding:0.25rem 0.7rem;border-radius:100px;font-size:0.6rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;}
 .badge.green{background:var(--green-pale);color:var(--green-dark);}
 .badge.amber{background:var(--amber-pale);color:var(--amber);}
- 
+
 /* FLOW */
 .flow{display:flex;flex-direction:column;gap:0;position:relative;}
 .flow-step{display:flex;gap:1rem;align-items:flex-start;padding-bottom:1rem;position:relative;}
@@ -83,7 +83,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
 .flow-ico.dark{background:var(--green-dark);}
 .flow-txt h4{font-family:'Fraunces',serif;font-size:0.85rem;font-weight:700;margin-bottom:0.1rem;}
 .flow-txt p{font-size:0.73rem;color:var(--muted);line-height:1.5;}
- 
+
 /* MARKET BARS */
 .mbar{margin-bottom:1rem;}
 .mbar-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem;}
@@ -93,7 +93,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
 .mbar-track{height:7px;background:var(--border);border-radius:100px;overflow:hidden;}
 .mbar-fill{height:100%;background:linear-gradient(90deg,var(--green-dark),var(--green-light));border-radius:100px;width:0;transition:width 1.1s ease;}
 .mbar-sub{font-size:0.67rem;color:var(--muted);margin-top:0.25rem;}
- 
+
 /* ROADMAP */
 .rphase{padding:1.1rem 1.3rem;border:1px solid var(--border);border-radius:8px;background:white;box-shadow:0 2px 8px rgba(0,0,0,0.04);position:relative;overflow:hidden;}
 .rphase::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),var(--green-light));}
@@ -103,7 +103,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
 .rphase-desc{font-size:0.72rem;color:var(--muted);line-height:1.55;}
 .rphase-target{margin-top:0.7rem;padding-top:0.6rem;border-top:1px solid var(--border);font-family:'Fraunces',serif;font-size:1.3rem;font-weight:900;color:var(--green);}
 .rphase-target span{font-family:'Outfit',sans-serif;font-size:0.65rem;color:var(--muted);display:block;font-weight:400;}
- 
+
 /* HERO */
 .hero-slide{display:grid;grid-template-columns:55% 45%;flex:1;overflow:hidden;}
 .hero-left{display:flex;flex-direction:column;justify-content:center;padding:1.5rem 3rem;}
@@ -116,10 +116,10 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
 .fl-num{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:900;color:var(--green);display:block;line-height:1;}
 .fl-num.amber{color:var(--amber);}
 .fl-lbl{font-size:0.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-top:0.1rem;}
- 
+
 /* TAG */
 .tag{font-size:0.6rem;padding:0.18rem 0.5rem;background:var(--off);border-radius:4px;color:var(--muted);border:1px solid var(--border);}
- 
+
 /* CREDIT BOX */
 .credit-box{background:var(--green-dark);color:white;border-radius:10px;padding:1rem 1.2rem;text-align:center;margin-bottom:0.7rem;}
 .credit-box .big{font-family:'Fraunces',serif;font-size:3.5rem;font-weight:900;color:var(--green-light);line-height:1;}
@@ -128,7 +128,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
 .equiv-item{flex:1;background:var(--off);border:1px solid var(--border);border-radius:6px;padding:0.55rem;text-align:center;}
 .equiv-item .ico{font-size:1.1rem;display:block;margin-bottom:0.15rem;}
 .equiv-item .txt{font-size:0.62rem;color:var(--muted);line-height:1.35;}
- 
+
 /* SEGMENTS */
 .seg-card{border:1px solid var(--border);border-radius:8px;padding:1rem 1.1rem;background:white;position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
 .seg-card.priority::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),var(--green-light));}
@@ -138,7 +138,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
 .seg-tags{display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:0.4rem;}
 .seg-desc{font-size:0.7rem;color:var(--muted);line-height:1.5;}
 .seg-big{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:900;color:var(--green);display:block;margin-top:0.4rem;line-height:1;}
- 
+
 /* ADV */
 .adv-list{list-style:none;display:flex;flex-direction:column;}
 .adv-item{display:flex;gap:0.9rem;align-items:flex-start;padding:0.55rem 0;border-bottom:1px solid var(--border);}
@@ -146,7 +146,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
 .adv-ico{font-size:1rem;flex-shrink:0;width:1.6rem;text-align:center;}
 .adv-item h4{font-family:'Fraunces',serif;font-size:0.82rem;font-weight:700;margin-bottom:0.05rem;}
 .adv-item p{font-size:0.68rem;color:var(--muted);line-height:1.45;}
- 
+
 /* BRIDGE */
 .bridge-wrap{display:flex;align-items:center;gap:0.8rem;background:var(--off);border-radius:8px;padding:0.8rem 1rem;margin-bottom:0.8rem;}
 .bridge-side{flex:1;text-align:center;padding:0.4rem;}
@@ -156,7 +156,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
 .bridge-arrow{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
 .bridge-gap{background:var(--green);color:white;border-radius:5px;padding:0.35rem 0.65rem;font-size:0.58rem;font-weight:600;text-align:center;font-family:'Space Mono',monospace;}
 .arr{font-size:0.95rem;color:var(--green-light);}
- 
+
 /* REVENUE */
 .rev-item{display:flex;gap:0.8rem;align-items:flex-start;padding:0.6rem 0;border-bottom:1px solid var(--border);}
 .rev-item:first-child{border-top:1px solid var(--border);}
@@ -164,11 +164,11 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
 .rev-dot.amber{background:var(--amber-light);}
 .rev-item h4{font-family:'Fraunces',serif;font-size:0.82rem;font-weight:700;margin-bottom:0.06rem;}
 .rev-item p{font-size:0.68rem;color:var(--muted);line-height:1.45;}
- 
+
 /* TEAM */
 .tpill{display:inline-flex;align-items:center;gap:0.4rem;padding:0.4rem 0.9rem;border:1.5px solid var(--border);border-radius:100px;font-size:0.7rem;font-weight:400;margin:0.2rem;}
 .tpill-dot{width:5px;height:5px;background:var(--green-light);border-radius:50%;}
- 
+
 /* LAYER */
 .layer-card{background:white;border:1px solid var(--border);border-radius:8px;padding:1.1rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,0.04);text-align:center;}
 .layer-ico{font-size:1.6rem;display:block;margin-bottom:0.5rem;}
@@ -176,22 +176,22 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
 .layer-name{font-family:'Fraunces',serif;font-size:0.88rem;font-weight:700;color:var(--green-dark);margin-bottom:0.3rem;}
 .layer-desc{font-size:0.68rem;color:var(--muted);line-height:1.5;}
 .layer-chip{display:inline-block;background:var(--green-pale);color:var(--green-dark);font-size:0.55rem;font-weight:600;padding:0.18rem 0.5rem;border-radius:100px;text-transform:uppercase;letter-spacing:0.06em;margin-top:0.5rem;}
- 
+
 /* STAT BOX */
 .stat-box{background:white;border:1px solid var(--border);border-radius:8px;padding:0.9rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
 .stat-box .num{font-family:'Fraunces',serif;font-size:1.7rem;font-weight:900;color:var(--green);line-height:1;display:block;margin-bottom:0.18rem;}
 .stat-box .lbl{font-size:0.65rem;color:var(--muted);}
- 
+
 /* CTA */
 .cta-slide-inner{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:var(--green-dark);padding:2.5rem;}
 .cta-slide-inner h2{font-family:'Fraunces',serif;font-size:clamp(1.8rem,3.5vw,3rem);font-weight:900;color:white;margin-bottom:0.8rem;}
 .cta-slide-inner p{color:rgba(255,255,255,0.65);font-size:0.92rem;max-width:480px;margin-bottom:1.8rem;line-height:1.7;}
 .btn-white{background:white;color:var(--green-dark);padding:0.7rem 1.8rem;border-radius:6px;font-weight:600;font-size:0.85rem;text-decoration:none;display:inline-block;transition:all 0.2s;}
 .btn-white:hover{background:var(--green-pale);}
- 
+
 /* ANIMATION PANEL */
 .anim-panel{background:var(--off);border-left:1px solid var(--border);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
- 
+
 @media(max-width:768px){
   .hero-slide,.two-col,.two-col-anim{grid-template-columns:1fr;}
   .hero-right,.anim-panel{display:none;}
@@ -203,15 +203,15 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
 </style>
 </head>
 <body>
- 
+
 <div id="topbar">
   <div class="tb-logo"><div class="tb-dot"></div>Decarbonisation Platform</div>
   <div id="slide-pills"></div>
   <div style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--muted);letter-spacing:0.12em;" id="tb-counter">01 / 11</div>
 </div>
- 
+
 <div id="deck">
- 
+
 <!-- ══════════════════════════════════════════
      SLIDE 1 · HERO
 ══════════════════════════════════════════ -->
@@ -308,7 +308,95 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
     </div>
   </div>
 </div>
- 
+
+<!-- ══════════════════════════════════════════
+     SLIDE 4 · PROBLEM
+══════════════════════════════════════════ -->
+<div class="slide" data-title="The Problem">
+  <div class="two-col-anim" style="flex:1;margin:0;gap:0;">
+    <div class="slide-inner" style="padding-right:1.5rem;overflow-y:auto;">
+      <div class="eyebrow">The Problem</div>
+      <h2 class="slide-h">Two sides of the same broken market</h2>
+      <div class="bridge-wrap">
+        <div class="bridge-side"><span class="bridge-icon">🏭</span><div class="bridge-name">Kiln Operators</div><div class="bridge-problem">"No access to carbon finance"</div></div>
+        <div class="bridge-arrow"><div class="arr">←</div><div class="bridge-gap">THE GAP</div><div class="arr">→</div></div>
+        <div class="bridge-side"><span class="bridge-icon">🏢</span><div class="bridge-name">Corporate Buyers</div><div class="bridge-problem">"Can't find credible credits"</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.8rem;">
+        <div class="card white border-amber"><div class="card-title">🏭 Kilns locked out of finance</div><div class="card-body">~3–6% of India's national CO₂. No structured pathway to carbon credits for small informal producers.</div></div>
+        <div class="card white border-amber"><div class="card-title">🏢 Corporates starved of supply</div><div class="card-body">Net-zero multinationals with Scope 3 targets can't source high-integrity industrial credits at scale.</div></div>
+        <div class="card white border-green"><div class="card-title">🔬 Proven solution, undeployed</div><div class="card-body">RCT evidence: 15–25% fuel reduction via training, ~20% PM2.5 reduction, no rebound. The gap is aggregation infrastructure — not technology.</div></div>
+      </div>
+    </div>
+    <!-- ANIMATED PROBLEM SVG – rising emissions, cracked connection -->
+    <div class="anim-panel">
+      <svg viewBox="0 0 300 420" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;">
+        <rect width="300" height="420" fill="#f7f5f0"/>
+        <!-- Ground line -->
+        <line x1="0" y1="330" x2="300" y2="330" stroke="#e2ddd5" stroke-width="1.5"/>
+
+        <!-- LEFT: kiln emitting -->
+        <rect x="30" y="230" width="90" height="100" rx="3" fill="#3a3a2a"/>
+        <path d="M48 330 L48 270 Q75 248 102 270 L102 330Z" fill="#2a2a1a"/>
+        <rect x="58" y="256" width="36" height="36" rx="2" fill="#e76f51" opacity="0.8"/>
+        <ellipse cx="76" cy="274" rx="12" ry="11" fill="#ffd166" opacity="0.8">
+          <animate attributeName="rx" values="12;15;10;13;12" dur="1.5s" repeatCount="indefinite"/>
+        </ellipse>
+        <!-- Chimney left kiln -->
+        <rect x="60" y="168" width="30" height="65" rx="3" fill="#3a3a2a"/>
+        <!-- Big red smoke - problem state -->
+        <circle cx="72" cy="152" r="12" fill="#e76f51" opacity="0">
+          <animate attributeName="cy" values="152;110;80" dur="2.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.5;0" dur="2.5s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="12;20;28" dur="2.5s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="78" cy="140" r="9" fill="#c85a3e" opacity="0">
+          <animate attributeName="cy" values="140;95;65" dur="3s" begin="0.8s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.45;0" dur="3s" begin="0.8s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="9;17;26" dur="3s" begin="0.8s" repeatCount="indefinite"/>
+        </circle>
+        <!-- X mark on kiln -->
+        <circle cx="106" cy="160" r="14" fill="#fde8e8" stroke="#e74c3c" stroke-width="1.5"/>
+        <line x1="100" y1="154" x2="112" y2="166" stroke="#e74c3c" stroke-width="2" stroke-linecap="round"/>
+        <line x1="112" y1="154" x2="100" y2="166" stroke="#e74c3c" stroke-width="2" stroke-linecap="round"/>
+
+        <!-- RIGHT: office building -->
+        <rect x="182" y="198" width="88" height="132" rx="3" fill="#2d4a7a"/>
+        <!-- windows -->
+        <rect x="196" y="212" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.8"/>
+        <rect x="216" y="212" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.8"/>
+        <rect x="236" y="212" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.8"/>
+        <rect x="196" y="232" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.6"/>
+        <rect x="216" y="232" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.6"/>
+        <rect x="236" y="232" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.6"/>
+        <rect x="196" y="252" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.4"/>
+        <rect x="216" y="252" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.4"/>
+        <rect x="236" y="252" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.4"/>
+        <!-- "?" on building -->
+        <circle cx="184" cy="160" r="14" fill="#fef9c3" stroke="#e6a817" stroke-width="1.5"/>
+        <text x="184" y="165" text-anchor="middle" font-family="serif" font-size="14" fill="#e6a817" font-weight="900">?</text>
+
+        <!-- Broken link in middle -->
+        <line x1="120" y1="198" x2="145" y2="198" stroke="#e74c3c" stroke-width="2" stroke-dasharray="5 3"/>
+        <line x1="155" y1="198" x2="180" y2="198" stroke="#e74c3c" stroke-width="2" stroke-dasharray="5 3"/>
+        <circle cx="150" cy="198" r="8" fill="#fde8e8" stroke="#e74c3c" stroke-width="1.5"/>
+        <text x="150" y="202" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#e74c3c" font-weight="700">✗</text>
+
+        <!-- Platform bridge forming -->
+        <rect x="88" y="350" width="124" height="32" rx="6" fill="#2d6a4f"/>
+        <text x="150" y="362" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="white" font-weight="700">OUR PLATFORM</text>
+        <text x="150" y="375" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="#d8f3dc">bridges both sides</text>
+
+        <!-- Arrows to platform -->
+        <path d="M75 330 Q75 355 88 362" stroke="#2d6a4f" stroke-width="1.5" fill="none"/>
+        <path d="M226 330 Q226 355 212 362" stroke="#2d6a4f" stroke-width="1.5" fill="none"/>
+
+        <text x="150" y="412" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a7a6a" letter-spacing="1">THE STRUCTURAL GAP</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
 <!-- ══════════════════════════════════════════
      SLIDE 2 · WHAT IS A CARBON CREDIT
 ══════════════════════════════════════════ -->
@@ -352,7 +440,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
         </circle>
         <text x="150" y="205" text-anchor="middle" font-family="serif" font-size="14" fill="#d8f3dc" font-weight="900">1t</text>
         <text x="150" y="222" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#52b788" font-weight="600">CO₂</text>
- 
+
         <!-- Node 1: Kiln top -->
         <circle cx="150" cy="68" r="30" fill="#2d6a4f"/>
         <text x="150" y="63" text-anchor="middle" font-size="16">🏭</text>
@@ -369,7 +457,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
         <circle cx="42" cy="210" r="30" fill="#1a4731"/>
         <text x="42" y="205" text-anchor="middle" font-size="16">🏢</text>
         <text x="42" y="220" text-anchor="middle" font-family="sans-serif" font-size="8" fill="white" font-weight="600">BUYER</text>
- 
+
         <!-- Arrows between nodes — animated dots travelling along paths -->
         <!-- Top → Right -->
         <path d="M175 88 Q220 130 238 182" stroke="#52b788" stroke-width="1.5" fill="none" stroke-dasharray="5 4" opacity="0.5"/>
@@ -379,7 +467,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
           </animateMotion>
         </circle>
         <path id="p1" d="M175 88 Q220 130 238 182" fill="none"/>
- 
+
         <!-- Right → Bottom -->
         <path d="M238 238 Q220 290 175 332" stroke="#52b788" stroke-width="1.5" fill="none" stroke-dasharray="5 4" opacity="0.5"/>
         <circle r="5" fill="#40916c">
@@ -388,7 +476,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
           </animateMotion>
         </circle>
         <path id="p2" d="M238 238 Q220 290 175 332" fill="none"/>
- 
+
         <!-- Bottom → Left -->
         <path d="M125 332 Q80 290 62 238" stroke="#52b788" stroke-width="1.5" fill="none" stroke-dasharray="5 4" opacity="0.5"/>
         <circle r="5" fill="#d8f3dc">
@@ -397,7 +485,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
           </animateMotion>
         </circle>
         <path id="p3" d="M125 332 Q80 290 62 238" fill="none"/>
- 
+
         <!-- Left → Top -->
         <path d="M62 182 Q80 130 125 88" stroke="#52b788" stroke-width="1.5" fill="none" stroke-dasharray="5 4" opacity="0.5"/>
         <circle r="5" fill="#52b788">
@@ -406,14 +494,14 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
           </animateMotion>
         </circle>
         <path id="p4" d="M62 182 Q80 130 125 88" fill="none"/>
- 
+
         <!-- Label -->
         <text x="150" y="410" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#7a7a6a" letter-spacing="1.5">CARBON CREDIT CYCLE</text>
       </svg>
     </div>
   </div>
 </div>
- 
+
 <!-- ══════════════════════════════════════════
      SLIDE 3 · WHY INDUSTRIAL CREDITS
 ══════════════════════════════════════════ -->
@@ -436,11 +524,11 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
         <rect width="300" height="420" fill="#f7f5f0"/>
         <!-- Bar chart showing credit types -->
         <text x="150" y="28" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a7a6a" font-weight="600" letter-spacing="1.5">CREDIT SUPPLY BY TYPE</text>
- 
+
         <!-- Y axis -->
         <line x1="55" y1="45" x2="55" y2="290" stroke="#e2ddd5" stroke-width="1.5"/>
         <line x1="55" y1="290" x2="270" y2="290" stroke="#e2ddd5" stroke-width="1.5"/>
- 
+
         <!-- Bars -->
         <!-- Forestry -->
         <rect x="70" y="290" width="44" height="0" fill="#52b788" rx="3" opacity="0.7">
@@ -449,7 +537,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
         </rect>
         <text x="92" y="306" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a7a6a">Forestry</text>
         <text x="92" y="72" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2d6a4f" font-weight="700">68%</text>
- 
+
         <!-- Renewable -->
         <rect x="128" y="290" width="44" height="0" fill="#40916c" rx="3" opacity="0.7">
           <animate attributeName="height" values="0;150" dur="1.2s" fill="freeze" begin="0.5s"/>
@@ -457,7 +545,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
         </rect>
         <text x="150" y="306" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a7a6a">Renewable</text>
         <text x="150" y="132" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#2d6a4f" font-weight="700">24%</text>
- 
+
         <!-- Industrial – tiny, highlighted -->
         <rect x="186" y="290" width="44" height="0" fill="#e76f51" rx="3">
           <animate attributeName="height" values="0;24" dur="1.2s" fill="freeze" begin="0.8s"/>
@@ -470,7 +558,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
         <defs><marker id="redA" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7Z" fill="#e76f51"/></marker></defs>
         <rect x="236" y="218" width="56" height="22" rx="4" fill="#fdebd0"/>
         <text x="264" y="233" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#e76f51" font-weight="700">HIGH VALUE</text>
- 
+
         <!-- Price comparison -->
         <rect x="30" y="326" width="240" height="72" rx="8" fill="white" stroke="#e2ddd5" stroke-width="1"/>
         <text x="150" y="344" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#7a7a6a" font-weight="600">CREDIT PRICE COMPARISON</text>
@@ -480,101 +568,13 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
         <text x="150" y="380" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="#7a7a6a">Renewable</text>
         <text x="224" y="366" text-anchor="middle" font-family="Fraunces,serif" font-size="16" fill="#e76f51" font-weight="900">$8–15</text>
         <text x="224" y="380" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="#e76f51" font-weight="700">Industrial ★</text>
- 
+
         <text x="150" y="412" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a7a6a" letter-spacing="1">SUPPLY · PRICE PER TONNE</text>
       </svg>
     </div>
   </div>
 </div>
- 
-<!-- ══════════════════════════════════════════
-     SLIDE 4 · PROBLEM
-══════════════════════════════════════════ -->
-<div class="slide" data-title="The Problem">
-  <div class="two-col-anim" style="flex:1;margin:0;gap:0;">
-    <div class="slide-inner" style="padding-right:1.5rem;overflow-y:auto;">
-      <div class="eyebrow">The Problem</div>
-      <h2 class="slide-h">Two sides of the same broken market</h2>
-      <div class="bridge-wrap">
-        <div class="bridge-side"><span class="bridge-icon">🏭</span><div class="bridge-name">Kiln Operators</div><div class="bridge-problem">"No access to carbon finance"</div></div>
-        <div class="bridge-arrow"><div class="arr">←</div><div class="bridge-gap">THE GAP</div><div class="arr">→</div></div>
-        <div class="bridge-side"><span class="bridge-icon">🏢</span><div class="bridge-name">Corporate Buyers</div><div class="bridge-problem">"Can't find credible credits"</div></div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:0.8rem;">
-        <div class="card white border-amber"><div class="card-title">🏭 Kilns locked out of finance</div><div class="card-body">~3–6% of India's national CO₂. No structured pathway to carbon credits for small informal producers.</div></div>
-        <div class="card white border-amber"><div class="card-title">🏢 Corporates starved of supply</div><div class="card-body">Net-zero multinationals with Scope 3 targets can't source high-integrity industrial credits at scale.</div></div>
-        <div class="card white border-green"><div class="card-title">🔬 Proven solution, undeployed</div><div class="card-body">RCT evidence: 15–25% fuel reduction via training, ~20% PM2.5 reduction, no rebound. The gap is aggregation infrastructure — not technology.</div></div>
-      </div>
-    </div>
-    <!-- ANIMATED PROBLEM SVG – rising emissions, cracked connection -->
-    <div class="anim-panel">
-      <svg viewBox="0 0 300 420" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;">
-        <rect width="300" height="420" fill="#f7f5f0"/>
-        <!-- Ground line -->
-        <line x1="0" y1="330" x2="300" y2="330" stroke="#e2ddd5" stroke-width="1.5"/>
- 
-        <!-- LEFT: kiln emitting -->
-        <rect x="30" y="230" width="90" height="100" rx="3" fill="#3a3a2a"/>
-        <path d="M48 330 L48 270 Q75 248 102 270 L102 330Z" fill="#2a2a1a"/>
-        <rect x="58" y="256" width="36" height="36" rx="2" fill="#e76f51" opacity="0.8"/>
-        <ellipse cx="76" cy="274" rx="12" ry="11" fill="#ffd166" opacity="0.8">
-          <animate attributeName="rx" values="12;15;10;13;12" dur="1.5s" repeatCount="indefinite"/>
-        </ellipse>
-        <!-- Chimney left kiln -->
-        <rect x="60" y="168" width="30" height="65" rx="3" fill="#3a3a2a"/>
-        <!-- Big red smoke - problem state -->
-        <circle cx="72" cy="152" r="12" fill="#e76f51" opacity="0">
-          <animate attributeName="cy" values="152;110;80" dur="2.5s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0;0.5;0" dur="2.5s" repeatCount="indefinite"/>
-          <animate attributeName="r" values="12;20;28" dur="2.5s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="78" cy="140" r="9" fill="#c85a3e" opacity="0">
-          <animate attributeName="cy" values="140;95;65" dur="3s" begin="0.8s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0;0.45;0" dur="3s" begin="0.8s" repeatCount="indefinite"/>
-          <animate attributeName="r" values="9;17;26" dur="3s" begin="0.8s" repeatCount="indefinite"/>
-        </circle>
-        <!-- X mark on kiln -->
-        <circle cx="106" cy="160" r="14" fill="#fde8e8" stroke="#e74c3c" stroke-width="1.5"/>
-        <line x1="100" y1="154" x2="112" y2="166" stroke="#e74c3c" stroke-width="2" stroke-linecap="round"/>
-        <line x1="112" y1="154" x2="100" y2="166" stroke="#e74c3c" stroke-width="2" stroke-linecap="round"/>
- 
-        <!-- RIGHT: office building -->
-        <rect x="182" y="198" width="88" height="132" rx="3" fill="#2d4a7a"/>
-        <!-- windows -->
-        <rect x="196" y="212" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.8"/>
-        <rect x="216" y="212" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.8"/>
-        <rect x="236" y="212" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.8"/>
-        <rect x="196" y="232" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.6"/>
-        <rect x="216" y="232" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.6"/>
-        <rect x="236" y="232" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.6"/>
-        <rect x="196" y="252" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.4"/>
-        <rect x="216" y="252" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.4"/>
-        <rect x="236" y="252" width="14" height="12" rx="1" fill="#87ceeb" opacity="0.4"/>
-        <!-- "?" on building -->
-        <circle cx="184" cy="160" r="14" fill="#fef9c3" stroke="#e6a817" stroke-width="1.5"/>
-        <text x="184" y="165" text-anchor="middle" font-family="serif" font-size="14" fill="#e6a817" font-weight="900">?</text>
- 
-        <!-- Broken link in middle -->
-        <line x1="120" y1="198" x2="145" y2="198" stroke="#e74c3c" stroke-width="2" stroke-dasharray="5 3"/>
-        <line x1="155" y1="198" x2="180" y2="198" stroke="#e74c3c" stroke-width="2" stroke-dasharray="5 3"/>
-        <circle cx="150" cy="198" r="8" fill="#fde8e8" stroke="#e74c3c" stroke-width="1.5"/>
-        <text x="150" y="202" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#e74c3c" font-weight="700">✗</text>
- 
-        <!-- Platform bridge forming -->
-        <rect x="88" y="350" width="124" height="32" rx="6" fill="#2d6a4f"/>
-        <text x="150" y="362" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="white" font-weight="700">OUR PLATFORM</text>
-        <text x="150" y="375" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="#d8f3dc">bridges both sides</text>
- 
-        <!-- Arrows to platform -->
-        <path d="M75 330 Q75 355 88 362" stroke="#2d6a4f" stroke-width="1.5" fill="none"/>
-        <path d="M226 330 Q226 355 212 362" stroke="#2d6a4f" stroke-width="1.5" fill="none"/>
- 
-        <text x="150" y="412" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a7a6a" letter-spacing="1">THE STRUCTURAL GAP</text>
-      </svg>
-    </div>
-  </div>
-</div>
- 
+
 <!-- ══════════════════════════════════════════
      SLIDE 5 · PLATFORM
 ══════════════════════════════════════════ -->
@@ -635,7 +635,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
     </div>
   </div>
 </div>
- 
+
 <!-- ══════════════════════════════════════════
      SLIDE 6 · MARKET
 ══════════════════════════════════════════ -->
@@ -644,16 +644,16 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
     <div class="eyebrow">Market Opportunity</div>
     <h2 class="slide-h">A $400M addressable market</h2>
     <p class="lead" style="margin-bottom:1.2rem;">India's brick kilns are one of the largest untapped pools of industrial emission reductions — entirely absent from carbon markets today.</p>
- 
+
     <!-- Two-column: bars + stat cards left, concentric diagram right -->
     <div style="flex:1;display:grid;grid-template-columns:1fr 340px;gap:2.5rem;min-height:0;align-items:stretch;">
- 
+
       <!-- Left: bars + stat boxes -->
       <div style="display:flex;flex-direction:column;justify-content:center;gap:0;">
         <div class="mbar"><div class="mbar-head"><span class="mbar-name">TAM <span class="mbar-chip">All India · 80–100K kilns</span></span><span class="mbar-val">$200–400M</span></div><div class="mbar-track"><div class="mbar-fill" data-width="100"></div></div><div class="mbar-sub">24–40 million tonnes CO₂ annual reduction potential</div></div>
         <div class="mbar"><div class="mbar-head"><span class="mbar-name">SAM <span class="mbar-chip">5–7 Key States</span></span><span class="mbar-val">$100–200M</span></div><div class="mbar-track"><div class="mbar-fill" data-width="56"></div></div><div class="mbar-sub">40–50K kilns · 12–20Mt CO₂ annually</div></div>
         <div class="mbar"><div class="mbar-head"><span class="mbar-name">SOM <span class="mbar-chip">5-Year Target</span></span><span class="mbar-val">$24–40M</span></div><div class="mbar-track"><div class="mbar-fill" data-width="14" style="background:linear-gradient(90deg,#40916c,#74c69d)"></div></div><div class="mbar-sub">10,000 kilns · 3–4Mt CO₂ · $8–10/tonne</div></div>
- 
+
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;margin-top:1.5rem;">
           <div class="stat-box"><span class="num">100K+</span><span class="lbl">Kilns in India</span></div>
           <div class="stat-box"><span class="num">40Mt</span><span class="lbl">CO₂ reduction potential</span></div>
@@ -661,7 +661,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
           <div class="stat-box"><span class="num">10K</span><span class="lbl">5-year kiln target</span></div>
         </div>
       </div>
- 
+
       <!-- Right: concentric circles diagram, contained -->
       <div style="background:var(--off);border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:1rem;">
         <svg viewBox="0 0 280 340" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;max-height:100%;">
@@ -688,17 +688,17 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
           <line x1="22" y1="162" x2="260" y2="162" stroke="rgba(45,106,79,0.08)" stroke-width="1" stroke-dasharray="3 3"/>
         </svg>
       </div>
- 
+
     </div>
   </div>
 </div>
- 
+
 <!-- ══════════════════════════════════════════
      SLIDE 7 · SEGMENTS — full-screen 2×2 matrix
 ══════════════════════════════════════════ -->
 <div class="slide" data-title="Customer Segments">
   <div style="flex:1;display:flex;flex-direction:column;padding:56px 2rem 56px;overflow:hidden;">
- 
+
     <!-- Header row -->
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;flex-shrink:0;">
       <div>
@@ -710,12 +710,12 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
         <span class="badge amber" style="font-size:0.55rem;">Priority 2 = near-term upside</span>
       </div>
     </div>
- 
+
     <!-- Matrix wrapper: fills all remaining height -->
     <div style="flex:1;display:grid;grid-template-columns:32px 1fr 1fr;grid-template-rows:28px 1fr 1fr;gap:5px;min-height:0;">
- 
+
       <div></div><!-- corner -->
- 
+
       <!-- Column headers -->
       <div style="display:flex;align-items:center;justify-content:center;background:var(--off);border-radius:6px;border:1px solid var(--border);">
         <span style="font-family:'Space Mono',monospace;font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--green-dark);">✅ GOOD OPERATIONS</span>
@@ -723,12 +723,12 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
       <div style="display:flex;align-items:center;justify-content:center;background:#fff5f3;border-radius:6px;border:1px solid #f4c4b8;">
         <span style="font-family:'Space Mono',monospace;font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--amber);">⚠️ POOR OPERATIONS</span>
       </div>
- 
+
       <!-- Row label: Advanced Tech -->
       <div style="display:flex;align-items:center;justify-content:center;background:var(--off);border-radius:6px;border:1px solid var(--border);">
         <span style="font-family:'Space Mono',monospace;font-size:0.54rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--green-dark);writing-mode:vertical-rl;transform:rotate(180deg);">ADV. TECH</span>
       </div>
- 
+
       <!-- Q1: Seg 01 — Adv Tech + Good Ops -->
       <div style="background:#f0faf4;border:1.5px solid #b7e4c7;border-radius:10px;padding:0.7rem 1rem;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;">
         <div>
@@ -747,7 +747,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
           <div style="font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;">long-term certification leaders</div>
         </div>
       </div>
- 
+
       <!-- Q2: Seg 02 — Adv Tech + Poor Ops ⭐ PRIORITY 1 -->
       <div style="background:#d8f3dc;border:2.5px solid var(--green);border-radius:10px;padding:0.7rem 1rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;box-shadow:0 4px 16px rgba(45,106,79,0.14);overflow:hidden;">
         <div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:linear-gradient(90deg,var(--green-dark),var(--green-light));border-radius:10px 10px 0 0;"></div>
@@ -767,12 +767,12 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
           <div style="font-size:0.6rem;color:var(--green-dark);text-transform:uppercase;letter-spacing:0.07em;font-weight:600;">emission reduction via training</div>
         </div>
       </div>
- 
+
       <!-- Row label: Traditional Tech -->
       <div style="display:flex;align-items:center;justify-content:center;background:var(--off);border-radius:6px;border:1px solid var(--border);">
         <span style="font-family:'Space Mono',monospace;font-size:0.54rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);writing-mode:vertical-rl;transform:rotate(180deg);">TRAD. TECH</span>
       </div>
- 
+
       <!-- Q3: Seg 04 — Trad Tech + Improving Ops PRIORITY 2 -->
       <div style="background:#fdebd0;border:2px solid var(--amber-light);border-radius:10px;padding:0.7rem 1rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;box-shadow:0 4px 12px rgba(231,111,81,0.1);overflow:hidden;">
         <div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:linear-gradient(90deg,var(--amber),var(--amber-light));border-radius:10px 10px 0 0;"></div>
@@ -792,7 +792,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
           <div style="font-size:0.6rem;color:var(--amber);text-transform:uppercase;letter-spacing:0.07em;font-weight:600;">near-term · high longer-term upside</div>
         </div>
       </div>
- 
+
       <!-- Q4: Seg 03 — Trad Tech + Poor Ops -->
       <div style="background:#f7f5f0;border:1.5px solid var(--border);border-radius:10px;padding:0.7rem 1rem;display:flex;flex-direction:column;justify-content:space-between;opacity:0.8;overflow:hidden;">
         <div>
@@ -811,78 +811,110 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
           <div style="font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;">requires capex + time</div>
         </div>
       </div>
- 
+
     </div><!-- /matrix -->
   </div>
 </div>
- 
+
       <!-- Top-left corner (empty) -->
- 
- 
+
+
 <!-- ══════════════════════════════════════════
      SLIDE 8 · ROADMAP
 ══════════════════════════════════════════ -->
-<div class="slide" data-title="36-Month Roadmap">
-  <div style="flex:1;display:flex;flex-direction:column;padding:62px 3rem 62px;overflow:hidden;">
+<div class="slide" data-title="5-Year Roadmap">
+  <div style="flex:1;display:flex;flex-direction:column;padding:62px 2.5rem 62px;overflow:hidden;">
     <div class="eyebrow">Development Roadmap</div>
-    <h2 class="slide-h">36 months to scale</h2>
-    <p class="lead" style="margin-bottom:1rem;">A disciplined, pilot-led path from first kiln to corporate offtake.</p>
- 
-    <!-- 3 phase cards filling remaining height -->
-    <div style="flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;min-height:0;">
- 
+    <h2 class="slide-h">5 years to full scale</h2>
+    <p class="lead" style="margin-bottom:1rem;">A disciplined, pilot-led path from first kiln to mature carbon revenue platform.</p>
+
+    <!-- 5 phase cards -->
+    <div style="flex:1;display:grid;grid-template-columns:repeat(5,1fr);gap:0.8rem;min-height:0;">
+
       <!-- Year 1 -->
-      <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:1.8rem 2rem;display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--green-dark),var(--green-mid));"></div>
-        <div style="width:38px;height:38px;background:var(--green-dark);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:900;color:white;font-size:1.1rem;margin-bottom:1rem;box-shadow:0 0 0 4px var(--green-pale);">1</div>
-        <span style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--green-mid);display:block;margin-bottom:0.4rem;">Year One</span>
-        <div style="font-family:'Fraunces',serif;font-size:1.3rem;font-weight:900;margin-bottom:0.8rem;">Pilot & Prove</div>
-        <div style="font-size:0.82rem;color:var(--muted);line-height:1.65;flex:1;">
-          <p style="margin-bottom:0.5rem;"><strong style="color:var(--text);">H1:</strong> Carbon reduction pilot with 25 kilns. Recruit kiln operators, train field staff, run first measurement cycle.</p>
-          <p><strong style="color:var(--text);">H2:</strong> Scale to 100 kilns. Build and validate the MRV system. Establish data protocols and field operations playbook.</p>
+      <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.3rem;display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--green-dark);"></div>
+        <div style="width:30px;height:30px;background:var(--green-dark);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:900;color:white;font-size:0.95rem;margin-bottom:0.7rem;box-shadow:0 0 0 3px var(--green-pale);">1</div>
+        <span style="font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--green-mid);display:block;margin-bottom:0.3rem;">Year One</span>
+        <div style="font-family:'Fraunces',serif;font-size:1.05rem;font-weight:900;margin-bottom:0.6rem;">Pilot & Prove</div>
+        <div style="font-size:0.73rem;color:var(--muted);line-height:1.55;flex:1;">
+          <p style="margin-bottom:0.4rem;"><strong style="color:var(--text);">H1:</strong> 25-kiln pilot. Train field staff, run first measurement cycle.</p>
+          <p><strong style="color:var(--text);">H2:</strong> Scale to 100 kilns. Validate MRV system and operations playbook.</p>
         </div>
-        <div style="margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid var(--border);">
-          <div style="font-family:'Fraunces',serif;font-size:2rem;font-weight:900;color:var(--green-dark);line-height:1;">100 kilns</div>
-          <div style="font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:0.2rem;">MRV validated · end of Year 1</div>
+        <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--border);">
+          <div style="font-family:'Fraunces',serif;font-size:1.5rem;font-weight:900;color:var(--green-dark);line-height:1;">100</div>
+          <div style="font-size:0.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-top:0.1rem;">kilns · MRV validated</div>
         </div>
       </div>
- 
+
       <!-- Year 2 -->
-      <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:1.8rem 2rem;display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--green-mid),var(--green-light));"></div>
-        <div style="width:38px;height:38px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:900;color:white;font-size:1.1rem;margin-bottom:1rem;box-shadow:0 0 0 4px var(--green-pale);">2</div>
-        <span style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--green-mid);display:block;margin-bottom:0.4rem;">Year Two</span>
-        <div style="font-family:'Fraunces',serif;font-size:1.3rem;font-weight:900;margin-bottom:0.8rem;">Scale & Register</div>
-        <div style="font-size:0.82rem;color:var(--muted);line-height:1.65;flex:1;">
-          <p style="margin-bottom:0.5rem;"><strong style="color:var(--text);">Scale:</strong> Expand to 1,000 kiln units across target states. Refine the aggregation model and reduce cost per kiln.</p>
-          <p><strong style="color:var(--text);">Register:</strong> Submit carbon methodology to an accredited registry (Verra / Gold Standard). Begin first credit issuance pipeline.</p>
+      <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.3rem;display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--green);"></div>
+        <div style="width:30px;height:30px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:900;color:white;font-size:0.95rem;margin-bottom:0.7rem;box-shadow:0 0 0 3px var(--green-pale);">2</div>
+        <span style="font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--green-mid);display:block;margin-bottom:0.3rem;">Year Two</span>
+        <div style="font-family:'Fraunces',serif;font-size:1.05rem;font-weight:900;margin-bottom:0.6rem;">Scale & Register</div>
+        <div style="font-size:0.73rem;color:var(--muted);line-height:1.55;flex:1;">
+          <p style="margin-bottom:0.4rem;"><strong style="color:var(--text);">Scale:</strong> Expand to 1,000 kilns across target states.</p>
+          <p><strong style="color:var(--text);">Register:</strong> Submit to accredited registry. Begin first credit issuance.</p>
         </div>
-        <div style="margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid var(--border);">
-          <div style="font-family:'Fraunces',serif;font-size:2rem;font-weight:900;color:var(--green);line-height:1;">1,000 kilns</div>
-          <div style="font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:0.2rem;">Registered carbon project · first credits issued</div>
+        <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--border);">
+          <div style="font-family:'Fraunces',serif;font-size:1.5rem;font-weight:900;color:var(--green);line-height:1;">1,000</div>
+          <div style="font-size:0.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-top:0.1rem;">kilns · first credits issued</div>
         </div>
       </div>
- 
+
       <!-- Year 3 -->
-      <div style="background:var(--green-dark);border-radius:12px;padding:1.8rem 2rem;display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(26,71,49,0.2);">
-        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--green-light),#74c69d);"></div>
-        <div style="width:38px;height:38px;background:var(--green-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:900;color:var(--green-dark);font-size:1.1rem;margin-bottom:1rem;box-shadow:0 0 0 4px rgba(82,183,136,0.2);">3</div>
-        <span style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--green-light);display:block;margin-bottom:0.4rem;">Year Three</span>
-        <div style="font-family:'Fraunces',serif;font-size:1.3rem;font-weight:900;color:white;margin-bottom:0.8rem;">Monetise & Expand</div>
-        <div style="font-size:0.82rem;color:rgba(255,255,255,0.7);line-height:1.65;flex:1;">
-          <p style="margin-bottom:0.5rem;"><strong style="color:white;">Offtake:</strong> Secure long-term corporate purchase agreements with net-zero committed multinationals and Indian conglomerates.</p>
-          <p><strong style="color:white;">Expand:</strong> Hit 10,000 kiln target. Launch platform into a second informal industry vertical beyond brick.</p>
+      <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.3rem;display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--green-mid);"></div>
+        <div style="width:30px;height:30px;background:var(--green-mid);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:900;color:white;font-size:0.95rem;margin-bottom:0.7rem;box-shadow:0 0 0 3px var(--green-pale);">3</div>
+        <span style="font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--green-mid);display:block;margin-bottom:0.3rem;">Year Three</span>
+        <div style="font-family:'Fraunces',serif;font-size:1.05rem;font-weight:900;margin-bottom:0.6rem;">Monetise & Expand</div>
+        <div style="font-size:0.73rem;color:var(--muted);line-height:1.55;flex:1;">
+          <p style="margin-bottom:0.4rem;"><strong style="color:var(--text);">Offtake:</strong> Secure corporate purchase agreements with net-zero committed buyers.</p>
+          <p><strong style="color:var(--text);">Expand:</strong> Launch into a second informal industry vertical.</p>
         </div>
-        <div style="margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid rgba(255,255,255,0.15);">
-          <div style="font-family:'Fraunces',serif;font-size:2rem;font-weight:900;color:var(--green-light);line-height:1;">10,000 kilns</div>
-          <div style="font-size:0.65rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;margin-top:0.2rem;">Offtake secured · 2nd vertical launched</div>
+        <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--border);">
+          <div style="font-family:'Fraunces',serif;font-size:1.5rem;font-weight:900;color:var(--green-mid);line-height:1;">3,000</div>
+          <div style="font-size:0.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-top:0.1rem;">kilns · offtake secured</div>
         </div>
       </div>
- 
+
+      <!-- Year 4 -->
+      <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.3rem;display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--green-light);"></div>
+        <div style="width:30px;height:30px;background:var(--green-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:900;color:white;font-size:0.95rem;margin-bottom:0.7rem;box-shadow:0 0 0 3px var(--green-pale);">4</div>
+        <span style="font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--green-light);display:block;margin-bottom:0.3rem;">Year Four</span>
+        <div style="font-family:'Fraunces',serif;font-size:1.05rem;font-weight:900;margin-bottom:0.6rem;">Deepen & Diversify</div>
+        <div style="font-size:0.73rem;color:var(--muted);line-height:1.55;flex:1;">
+          <p style="margin-bottom:0.4rem;"><strong style="color:var(--text);">Deepen:</strong> Grow to 6,000 kilns. Optimise MRV cost curves and credit quality ratings.</p>
+          <p><strong style="color:var(--text);">Diversify:</strong> Scale second vertical to 500+ units. Begin third vertical assessment.</p>
+        </div>
+        <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--border);">
+          <div style="font-family:'Fraunces',serif;font-size:1.5rem;font-weight:900;color:var(--green-light);line-height:1;">6,000</div>
+          <div style="font-size:0.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-top:0.1rem;">kilns · 2nd vertical scaling</div>
+        </div>
+      </div>
+
+      <!-- Year 5 -->
+      <div style="background:var(--green-dark);border-radius:10px;padding:1.2rem 1.3rem;display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 4px 16px rgba(26,71,49,0.2);">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green-light),#74c69d);"></div>
+        <div style="width:30px;height:30px;background:var(--green-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:900;color:var(--green-dark);font-size:0.95rem;margin-bottom:0.7rem;box-shadow:0 0 0 3px rgba(82,183,136,0.25);">5</div>
+        <span style="font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--green-light);display:block;margin-bottom:0.3rem;">Year Five</span>
+        <div style="font-family:'Fraunces',serif;font-size:1.05rem;font-weight:900;color:white;margin-bottom:0.6rem;">Full Scale & SOM</div>
+        <div style="font-size:0.73rem;color:rgba(255,255,255,0.7);line-height:1.55;flex:1;">
+          <p style="margin-bottom:0.4rem;"><strong style="color:white;">Target:</strong> Hit 10,000 kiln SOM. Achieve $24–40M annual carbon revenue run rate.</p>
+          <p><strong style="color:white;">Platform:</strong> Multi-vertical industrial decarbonisation platform fully operational.</p>
+        </div>
+        <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid rgba(255,255,255,0.15);">
+          <div style="font-family:'Fraunces',serif;font-size:1.5rem;font-weight:900;color:var(--green-light);line-height:1;">10,000</div>
+          <div style="font-size:0.58rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.07em;margin-top:0.1rem;">kilns · $24–40M revenue · SOM achieved</div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
- 
+
 <!-- ══════════════════════════════════════════
      SLIDE 9 · REVENUE
 ══════════════════════════════════════════ -->
@@ -910,7 +942,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
       <svg viewBox="0 0 300 420" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;">
         <rect width="300" height="420" fill="#f7f5f0"/>
         <text x="150" y="26" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a7a6a" font-weight="600" letter-spacing="1.5">REVENUE MIX</text>
- 
+
         <!-- Donut chart – approximate arcs -->
         <!-- Carbon credits ~70% (252 deg) -->
         <circle cx="150" cy="155" r="72" fill="none" stroke="#2d6a4f" stroke-width="28" stroke-dasharray="317 185" stroke-dashoffset="0" opacity="0.9">
@@ -932,7 +964,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
         <circle cx="150" cy="155" r="44" fill="white"/>
         <text x="150" y="150" text-anchor="middle" font-family="Fraunces,serif" font-size="20" fill="#2d6a4f" font-weight="900">$40M</text>
         <text x="150" y="165" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a7a6a">peak annual</text>
- 
+
         <!-- Legend -->
         <rect x="30" y="248" width="240" height="110" rx="8" fill="white" stroke="#e2ddd5"/>
         <rect x="44" y="263" width="12" height="12" rx="2" fill="#2d6a4f"/>
@@ -949,13 +981,13 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
         <text x="240" y="333" text-anchor="end" font-family="Fraunces,serif" font-size="9" fill="#e76f51" font-weight="700">~5%</text>
         <line x1="40" y1="342" x2="260" y2="342" stroke="#e2ddd5"/>
         <text x="150" y="353" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a7a6a">at steady-state (Year 3+)</text>
- 
+
         <text x="150" y="408" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a7a6a" letter-spacing="1">REVENUE BREAKDOWN</text>
       </svg>
     </div>
   </div>
 </div>
- 
+
 <!-- ══════════════════════════════════════════
      SLIDE 10 · TEAM
 ══════════════════════════════════════════ -->
@@ -983,7 +1015,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
       <svg viewBox="0 0 300 420" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;">
         <rect width="300" height="420" fill="#f7f5f0"/>
         <text x="150" y="26" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#7a7a6a" font-weight="600" letter-spacing="1.5">GO-TO-MARKET NETWORK</text>
- 
+
         <!-- Central hub: Platform -->
         <circle cx="150" cy="200" r="38" fill="#1a4731">
           <animate attributeName="r" values="38;42;38" dur="4s" repeatCount="indefinite"/>
@@ -993,7 +1025,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
         </circle>
         <text x="150" y="196" text-anchor="middle" font-family="sans-serif" font-size="9" fill="white" font-weight="700">OUR</text>
         <text x="150" y="210" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#52b788" font-weight="700">PLATFORM</text>
- 
+
         <!-- Satellite nodes -->
         <!-- Kiln assoc top-left -->
         <circle cx="68" cy="100" r="26" fill="#2d6a4f"/>
@@ -1002,7 +1034,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
         <line x1="90" y1="118" x2="128" y2="172" stroke="#52b788" stroke-width="1.5" stroke-dasharray="5 3">
           <animate attributeName="stroke-dashoffset" values="0;-16" dur="1s" repeatCount="indefinite"/>
         </line>
- 
+
         <!-- NGOs top-right -->
         <circle cx="232" cy="100" r="26" fill="#40916c"/>
         <text x="232" y="96" text-anchor="middle" font-size="14">🌱</text>
@@ -1010,7 +1042,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
         <line x1="210" y1="118" x2="172" y2="172" stroke="#52b788" stroke-width="1.5" stroke-dasharray="5 3">
           <animate attributeName="stroke-dashoffset" values="0;-16" dur="1s" repeatCount="indefinite" begin="0.3s"/>
         </line>
- 
+
         <!-- Registries left -->
         <circle cx="52" cy="220" r="26" fill="#52b788"/>
         <text x="52" y="216" text-anchor="middle" font-size="14">📋</text>
@@ -1018,7 +1050,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
         <line x1="78" y1="220" x2="112" y2="210" stroke="#52b788" stroke-width="1.5" stroke-dasharray="5 3">
           <animate attributeName="stroke-dashoffset" values="0;-16" dur="1s" repeatCount="indefinite" begin="0.6s"/>
         </line>
- 
+
         <!-- Corporates right -->
         <circle cx="248" cy="220" r="26" fill="#1a4731"/>
         <text x="248" y="216" text-anchor="middle" font-size="14">🏢</text>
@@ -1026,7 +1058,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
         <line x1="222" y1="220" x2="188" y2="210" stroke="#52b788" stroke-width="1.5" stroke-dasharray="5 3">
           <animate attributeName="stroke-dashoffset" values="0;-16" dur="1s" repeatCount="indefinite" begin="0.9s"/>
         </line>
- 
+
         <!-- Investors bottom -->
         <circle cx="150" cy="332" r="26" fill="#2d6a4f"/>
         <text x="150" y="328" text-anchor="middle" font-size="14">💰</text>
@@ -1034,7 +1066,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
         <line x1="150" y1="238" x2="150" y2="306" stroke="#52b788" stroke-width="1.5" stroke-dasharray="5 3">
           <animate attributeName="stroke-dashoffset" values="0;-16" dur="1s" repeatCount="indefinite" begin="1.2s"/>
         </line>
- 
+
         <!-- Travelling credit tokens -->
         <circle r="4" fill="#d8f3dc" opacity="0.9">
           <animateMotion dur="2.5s" repeatCount="indefinite" begin="0s" path="M90 118 L128 172"/>
@@ -1045,13 +1077,13 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
         <circle r="4" fill="#ffd166" opacity="0.9">
           <animateMotion dur="2.5s" repeatCount="indefinite" begin="1.5s" path="M150 238 L150 306"/>
         </circle>
- 
+
         <text x="150" y="412" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#7a7a6a" letter-spacing="1">STAKEHOLDER NETWORK</text>
       </svg>
     </div>
   </div>
 </div>
- 
+
 <!-- ══════════════════════════════════════════
      SLIDE 11 · CTA
 ══════════════════════════════════════════ -->
@@ -1077,9 +1109,9 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
     </div>
   </div>
 </div>
- 
+
 </div><!-- /deck -->
- 
+
 <div id="botnav">
   <span class="slide-counter" id="bot-counter">Slide 1 of 11</span>
   <span class="slide-title-hint" id="slide-hint">Overview</span>
@@ -1088,7 +1120,7 @@ h2.slide-h{font-family:'Fraunces',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);fon
     <button class="nav-btn next" id="nextBtn" onclick="navigate(1)">Next →</button>
   </div>
 </div>
- 
+
 <script>
 const slides = document.querySelectorAll('.slide');
 const pills = document.getElementById('slide-pills');
@@ -1098,14 +1130,14 @@ const slideHint = document.getElementById('slide-hint');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 let current = 0;
- 
+
 slides.forEach((s,i) => {
   const p = document.createElement('div');
   p.className = 'pill' + (i===0?' active':'');
   p.onclick = () => goTo(i);
   pills.appendChild(p);
 });
- 
+
 function updateUI() {
   const total = slides.length;
   tbCounter.textContent = String(current+1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
@@ -1125,7 +1157,7 @@ function updateUI() {
     try { a.beginElement(); } catch(e) {}
   });
 }
- 
+
 function goTo(idx) {
   if (idx < 0 || idx >= slides.length) return;
   slides[current].classList.remove('active');
@@ -1135,17 +1167,15 @@ function goTo(idx) {
   slides[current].classList.add('active');
   updateUI();
 }
- 
+
 function navigate(dir) { goTo(current + dir); }
- 
+
 document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
   if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   navigate(-1);
 });
- 
+
 updateUI();
 </script>
 </body>
 </html>
- 
-
